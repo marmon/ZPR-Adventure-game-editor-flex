@@ -57,5 +57,5 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		
 	</fx:Declarations>
-	<s:Button x="99" y="131" label="Button" click="button1_clickHandler(event)"/>
+	<s:Button x="254" y="147" label="Button" click="button1_clickHandler(event)"/>
 </s:Application>

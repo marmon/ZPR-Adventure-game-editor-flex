@@ -16,7 +16,7 @@ package
 		{
 			graphics.lineStyle(1, 0xB3B3B3);
 			graphics.beginFill(0xFF0000); 
-			graphics.drawRect(x,y,length, length);
+			graphics.drawRect(0,0,length, length);
 			graphics.endFill();
 		}
 	}
