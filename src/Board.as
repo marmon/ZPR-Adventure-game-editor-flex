@@ -2,16 +2,22 @@ package
 {
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	public class Board extends Sprite
 	{
-		var board:Array;
+		public var board:Array;
+		public var blockColor:uint = 0xE3E3E3;
+		public var blockLength:uint
 		
-		public function Board(blockLength:Number)
+		public function Board(blockLength:uint)
 		{
 			super();
 			x = 0;
 			y = 0;
+			this.blockLength = blockLength;
+			//buttonMode = true;
 			// Setting up two dim array
 			board = new Array(10);
 			for (var k:int = 0; k < board.length; k++) 
@@ -20,14 +26,14 @@ package
 			}
 			
 			
-			graphics.lineStyle(1, 0xA3A3A3);
+			/*graphics.lineStyle(1, 0xA3A3A3);
 			graphics.beginFill(0xCCAA00); 
 			graphics.drawRect(x,y,100, 100);
-			graphics.endFill(); 
+			graphics.endFill(); */
 			
-			var block:Block = new Block(x,y);
+			/*var block:Block = new Block(x,y);
 			block.drawBlock(blockLength);
-			this.addChild(block);
+			this.addChild(block);*/
 			
 			for (var i:int = 0; i < 10; ++i) 
 			{ 
@@ -36,9 +42,16 @@ package
 					var block:Block = new Block(i*blockLength, j*blockLength);	
 					board[i][j] = block;
 					this.addChild(block);
-					block.drawBlock(blockLength);					
+					block.drawBlock(blockLength, blockColor);
+					block.addEventListener(MouseEvent.CLICK, blockClicked);
 				}
 			}			
 		}
+		
+		protected function blockClicked(event:MouseEvent):void
+		{
+			(event.target as Block).drawBlock(blockLength, blockColor);	
+		}
+		
 	}
 }

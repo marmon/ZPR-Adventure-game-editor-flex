@@ -2,10 +2,16 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   width="1019" height="598" minWidth="955" minHeight="600"
+			   xmlns:components="components.*"
+			   width="1019" height="988" minWidth="955" minHeight="600"
 			   creationComplete="init(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			import com.adobe.serialization.json.JSONEncoder;
+			
+			import events.RoomColorChanged;
+			
 			import mx.events.FlexEvent;
 			var board:Board;
 			protected function init(event:FlexEvent):void
@@ -17,21 +23,22 @@
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				// TODO Auto-generated method stub
-				var triangleHeight:uint = 300; 
-				var triangle:Shape = new Shape(); 
+				//var triangleHeight:uint = 300; 
+				
+				
+				//var triangle:Shape = new Shape(); 
 				
 				// red triangle, starting at point 0, 0 
-				triangle.graphics.beginFill(0xFF0000); 
+				/* triangle.graphics.beginFill(0xFF0000); 
 				triangle.graphics.moveTo(triangleHeight / 2, 0); 
 				triangle.graphics.lineTo(triangleHeight, triangleHeight); 
 				triangle.graphics.lineTo(0, triangleHeight); 
 				triangle.graphics.lineTo(triangleHeight / 2, 0); 
-				//this.addChild(triangle);
-				stage.addChild(triangle);
+				stage.addChild(triangle); */
 				
 				
 				
-				board = new Board(20);
+				board = new Board(50);
 				/*  board.graphics.lineStyle(1, 0xA3A3A3);
 				board.graphics.beginFill(0xCCAA00); 
 				board.graphics.drawRect(10,10,100, 100);
@@ -49,6 +56,22 @@
 				stage.addChild(board);
 			}
 			
+			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
+			{
+				board.blockColor = event.color;
+			}
+			
+			protected function mapToJSON_handler(event:MouseEvent):void
+			{
+				/* for(var i:uint ; i < 9999 ; ++i){
+					textArea.text = textArea.text + i.toString();
+				} */  
+				//textArea.text = JSON.stringify(board.board);
+				//This does not work yet. Don't know why because I do not have debugger installed
+				// so I do not see any errors
+				textArea.text = com.adobe.serialization.json.JSON.encode(board); 
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -58,4 +81,8 @@
 		
 	</fx:Declarations>
 	<s:Button x="254" y="147" label="Button" click="button1_clickHandler(event)"/>
+	<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" >
+	</components:RoomCreator>
+	<s:Button x="396" y="906" label="Map to JSON" click="mapToJSON_handler(event)"/>
+	<s:TextArea id="textArea" x="10" y="707" width="378" height="220"/>
 </s:Application>
