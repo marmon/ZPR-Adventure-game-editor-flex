@@ -13,13 +13,12 @@ package logic.commands
     public class ChangeBlockColor implements Command
     {
         private var blockViews:Array = new Array();
-        private var oldColor:uint;
-        private var newColor:uint;
+        public var oldColor:uint;
+        public var newColor:uint;
         
-        public function ChangeBlockColor(oldColor:uint, newColor:uint)
+        public function ChangeBlockColor()
         {
-            this.oldColor = oldColor;
-            this.newColor = newColor;
+            
         }
         
         public function addBlock(blockView:BlockView):void

@@ -7,6 +7,8 @@ package view
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import logic.commands.ChangeBlockColor;
+	
 	import model.BlockViewModel;
 	import model.BoardViewModel;
 	
@@ -52,20 +54,27 @@ package view
             selectedY = (selectedY / blockLength);
             --selectedX;
             --selectedY;
-            //selectedX -= selectedX % 3;
-            //selectedY -= selectedY % 3;
-            for(var row:int = selectedX ; row < selectedX + 3; ++row)
+            
+            // Cmd design pattern
+            var cmd:ChangeBlockColor = new ChangeBlockColor();
+            var row:int;    // outside of for because I want to access last block added to check for the old color
+            var col:int;
+            for(row = selectedX ; row < selectedX + 3; ++row)
             {
                 if( row >= 0 && row < blockViews.length){      
-                    for(var col:int = selectedY ; col < selectedY + 3; ++col)
+                    for(col = selectedY ; col < selectedY + 3; ++col)
                     {
                         if( col >= 0 && col < blockViews[row].length)
                         {
-                            (blockViews[row][col] as BlockView).changeColor(currentRoomColor);
+                            //(blockViews[row][col] as BlockView).changeColor(currentRoomColor);
+                            cmd.addBlock(blockViews[row][col]);
                         }
                     }
                 }
             }
+            cmd.newColor = currentRoomColor;
+            cmd.oldColor = (blockViews[row][col] as BlockView).blockViewModel.roomColor;
+            UndoRedo::getInstance().execute(cmd);
 		}
 		
 		public function setCurrentRoomColor(color:uint)
