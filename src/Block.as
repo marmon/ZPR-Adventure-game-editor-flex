@@ -4,7 +4,7 @@ package
 	
 	public class Block extends Sprite
 	{
-        
+
 		public function Block(x:uint, y:uint)
 		{
 			super();
@@ -19,6 +19,7 @@ package
 			graphics.beginFill(color); 
 			graphics.drawRect(0,0,length, length);
 			graphics.endFill();
+
 		}
 	}
 }

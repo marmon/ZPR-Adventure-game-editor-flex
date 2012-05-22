@@ -64,23 +64,31 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Label text="Rooms"/>
-	<s:List id="list" change="list_changeHandler(event)" dataProvider="{rooms}" labelField="name">
+	<s:List id="list" width="100%" change="list_changeHandler(event)" dataProvider="{rooms}" labelField="name">
 	</s:List>
-	<s:Form width="108" height="65">
-		<s:FormItem label="Room name:">
+	<s:Group width="100%" height="194">
+		<s:layout>
+			<s:HorizontalLayout/>
+
+		</s:layout>
+			<s:Label text="Name:"/>
 			<s:TextInput id="roomName"/>
-		</s:FormItem>
-		
-		<s:FormItem label="Color:">
+			<s:Label text="Color:"/>
 			<mx:ColorPicker id="roomColor"/>
+
+			<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)" enabled="{roomName.text}"/>
+	</s:Group>
+	<s:Form width="100%" height="65">
+		<s:FormItem label="Room name:">
+		</s:FormItem>
+		<s:FormItem label="Color:">
 		</s:FormItem>
 		
 		<s:FormItem>
-			<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)"/>
 		</s:FormItem>
 	</s:Form>
-	<s:Spacer width="10" height="50"/>
-	<s:Group width="218" height="194">
+	<s:Spacer width="100%" height="50"/>
+	<s:Group width="100%" height="194">
 		<s:layout>
 			<s:VerticalLayout/>
 		</s:layout>
