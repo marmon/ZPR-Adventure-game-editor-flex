@@ -7,8 +7,8 @@
 			   creationComplete="init(event)">
 	<fx:Script>
 		<![CDATA[
+            import valueObject.Room;
 			import com.adobe.serialization.json.JSON;
-			import com.adobe.serialization.json.JSONEncoder;
 			
 			import events.RoomColorChanged;
 			
@@ -22,38 +22,10 @@
 			
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-				//var triangleHeight:uint = 300; 
-				
-				
-				//var triangle:Shape = new Shape(); 
-				
-				// red triangle, starting at point 0, 0 
-				/* triangle.graphics.beginFill(0xFF0000); 
-				triangle.graphics.moveTo(triangleHeight / 2, 0); 
-				triangle.graphics.lineTo(triangleHeight, triangleHeight); 
-				triangle.graphics.lineTo(0, triangleHeight); 
-				triangle.graphics.lineTo(triangleHeight / 2, 0); 
-				stage.addChild(triangle); */
-				
-				
-				
+
 				board = new Board(50);
-				/*  board.graphics.lineStyle(1, 0xA3A3A3);
-				board.graphics.beginFill(0xCCAA00); 
-				board.graphics.drawRect(10,10,100, 100);
-				board.graphics.endFill();  */
+                stage.addChild(board);
 				
-				/* var block:Block = new Block(10,10,50);
-				
-				block.drawBlock(); 
-				block.graphics.lineStyle(3, 0xB3B3B3);
-				block.graphics.beginFill(0xFF0000); 
-				block.graphics.drawRect(0,0,length, length);
-				block.graphics.endFill(); 
-				
-				board.addChild(block); */
-				stage.addChild(board);
 			}
 			
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
@@ -63,13 +35,37 @@
 			
 			protected function mapToJSON_handler(event:MouseEvent):void
 			{
+				// test
 				/* for(var i:uint ; i < 9999 ; ++i){
 					textArea.text = textArea.text + i.toString();
 				} */  
-				//textArea.text = JSON.stringify(board.board);
+				
 				//This does not work yet. Don't know why because I do not have debugger installed
 				// so I do not see any errors
-				textArea.text = com.adobe.serialization.json.JSON.encode(board); 
+				// the line below requires as3corelib from here https://github.com/mikechambers/as3corelib
+                //board = new Board(50);
+                //textArea.text = board.encode();
+                
+                /*  var tablica:Array = new Array(10);
+                for (var k:int = 0; k < tablica.length; k++) 
+                {
+                    tablica[k] = new Array(10);
+                }
+                
+                
+                for (var i:int = 0; i < tablica.length; ++i) 
+                { 
+                    for(var j:int = 0; j < tablica[i].length; ++j)
+                    {
+                        var pokoj:Room = new Room();
+                        pokoj.name = "pokoj " + i + " " + j;
+                        pokoj.color = i+j;
+                        tablica[i][j] = pokoj;
+                    }
+                }
+                textArea.text = com.adobe.serialization.json.JSON.encode(tablica);  */
+                
+               // textArea.text = roomCreator.room.encode();
 			}
 			
 		]]>
@@ -83,6 +79,6 @@
 	<s:Button x="254" y="147" label="Button" click="button1_clickHandler(event)"/>
 	<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" >
 	</components:RoomCreator>
-	<s:Button x="396" y="906" label="Map to JSON" click="mapToJSON_handler(event)"/>
-	<s:TextArea id="textArea" x="10" y="707" width="378" height="220"/>
+	<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>
+	<s:TextArea id="textArea" x="10" y="547" width="378" height="220"/>
 </s:Application>

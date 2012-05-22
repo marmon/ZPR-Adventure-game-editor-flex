@@ -4,7 +4,7 @@ package
 	
 	public class Block extends Sprite
 	{
-		
+        
 		public function Block(x:uint, y:uint)
 		{
 			super();
