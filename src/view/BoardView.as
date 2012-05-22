@@ -50,13 +50,20 @@ package view
             var selectedY:int = (event.target as BlockView).y;
             selectedX = (selectedX / blockLength);
             selectedY = (selectedY / blockLength);
-            selectedX -= selectedX % 3;
-            selectedY -= selectedY % 3;
-            for(var i:int = 0; i < 3; i++)
+            --selectedX;
+            --selectedY;
+            //selectedX -= selectedX % 3;
+            //selectedY -= selectedY % 3;
+            for(var row:int = selectedX ; row < selectedX + 3; ++row)
             {
-                for(var j:int = 0; j < 3; j++)
-                {
-                    (blockViews[selectedX + i][selectedY + j] as BlockView).changeColor(currentRoomColor);
+                if( row >= 0 && row < blockViews.length){      
+                    for(var col:int = selectedY ; col < selectedY + 3; ++col)
+                    {
+                        if( col >= 0 && col < blockViews[row].length)
+                        {
+                            (blockViews[row][col] as BlockView).changeColor(currentRoomColor);
+                        }
+                    }
                 }
             }
 		}
