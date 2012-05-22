@@ -7,13 +7,18 @@
 			   creationComplete="init(event)">
 	<fx:Script>
 		<![CDATA[
+            import com.adobe.serialization.json.JSON;
+            
+            import events.RoomColorChanged;
+            
+            import model.BoardViewModel;
+            
+            import mx.events.FlexEvent;
+            
             import valueObject.Room;
-			import com.adobe.serialization.json.JSON;
-
-			
-			import events.RoomColorChanged;
-			import mx.events.FlexEvent;
-			var board:Board;
+            
+            import view.BoardView;
+			var boardView:BoardView;
 			protected function init(event:FlexEvent):void
 			{
 				//board = new Board(50);
@@ -21,12 +26,12 @@
 			}
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
-				board = new Board(50);
-                stage.addChild(board);
+				boardView = new BoardView(new BoardViewModel()); // BoardViewModel constructor has reasonable default
+                stage.addChild(boardView);
 			}
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
 			{
-				board.blockColor = event.color;
+				boardView.setCurrentRoomColor(event.color);
 			}
 			protected function mapToJSON_handler(event:MouseEvent):void
 			{
