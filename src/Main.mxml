@@ -35,7 +35,7 @@
 			}
 			protected function mapToJSON_handler(event:MouseEvent):void
 			{
-
+                textArea.text = com.adobe.serialization.json.JSON.encode(boardView.boardViewModel);
 			}
 		]]>
 	</fx:Script>
