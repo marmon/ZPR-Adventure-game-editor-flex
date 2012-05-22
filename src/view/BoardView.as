@@ -6,6 +6,7 @@ package view
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+    import logic.UndoRedo;
 	
 	import logic.commands.ChangeBlockColor;
 	
@@ -74,7 +75,7 @@ package view
             }
             cmd.newColor = currentRoomColor;
             cmd.oldColor = (blockViews[row][col] as BlockView).blockViewModel.roomColor;
-            UndoRedo::getInstance().execute(cmd);
+            UndoRedo.getInstance().execute(cmd);
 		}
 		
 		public function setCurrentRoomColor(color:uint)

@@ -11,6 +11,8 @@
             
             import events.RoomColorChanged;
             
+            import logic.UndoRedo;
+            
             import model.BoardViewModel;
             
             import mx.events.FlexEvent;
@@ -21,7 +23,8 @@
 			var boardView:BoardView;
 			protected function init(event:FlexEvent):void
 			{
-				//board = new Board(50);
+				
+                //board = new Board(50);
 				//stage.addChild(board);
 			}
 			protected function button1_clickHandler(event:MouseEvent):void
@@ -37,7 +40,20 @@
 			{
                 textArea.text = com.adobe.serialization.json.JSON.encode(boardView.boardViewModel);
 			}
-		]]>
+            
+            protected function undo(event:MouseEvent):void
+            {
+                UndoRedo.getInstance().undo();
+                
+            }
+            
+            protected function redo(event:MouseEvent):void
+            {
+                UndoRedo.getInstance().redo();
+                
+            }
+            
+        ]]>
 	</fx:Script>
 	
 	
@@ -51,5 +67,7 @@
 	</components:RoomCreator>
 	<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>
 	<s:TextArea id="textArea" x="10" y="547" width="378" height="220"/>
+    <s:Button x="32" y="504" label="Undo" click="undo(event)"/>
+    <s:Button x="140" y="504" label="Redo" click="redo(event)"/>
 </s:Application>
 

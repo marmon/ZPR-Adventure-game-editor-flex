@@ -1,31 +1,41 @@
 package logic
 {
-    import utils.stack.Stack;
     import logic.commands.Command;
+    
+    import utils.stack.Stack;
 
     public class UndoRedo
     {
-        private var undo:Stack = new Stack();
-        private var redo:Stack = new Stack();
+        private var _undo:Stack = new Stack();
+        private var _redo:Stack = new Stack();
         
-        public function UndoRedo()
+        private static var _instance:UndoRedo = null;
+        public function UndoRedo(e:SingletonEnforcer) // there are only public constructors in AS3
         {
             
         }
+        public static function getInstance():UndoRedo
+        {
+            if(_instance == null)
+                _instance = new UndoRedo(new SingletonEnforcer());
+            return _instance;
+        }
+        
         // every command must be executed only by this function
         public function execute(cmd:Command):void
         {
             cmd.execute();
-            undo.push(cmd);
+            this._undo.push(cmd);
+            
         }
         
         public function undo():void
         {
             if (canUndo())
             {    
-                  var cmd:Command = (undo.pop() as Command);
+                  var cmd:Command = (this._undo.pop() as Command);
                   cmd.rollback();
-                  redo.push(cmd);
+                  this._redo.push(cmd);
             }
         }
         
@@ -33,20 +43,24 @@ package logic
         {
             if (canRedo())
             {
-                var cmd:Command = (redo.pop() as Command);
+                var cmd:Command = (this._redo.pop() as Command);
                 cmd.execute();
-                undo.push(cmd);
+                this._undo.push(cmd);
             }   
         }
         
         public function canUndo():Boolean
         {
-            return !(undo.isEmpty());
+            return !(this._undo.isEmpty());
         }
         public function canRedo():Boolean
         {
-            return !(redo.isEmpty());
+            return !(this._redo.isEmpty());
         }
         
     }
+}
+
+class SingletonEnforcer{
+    //nothing else required here
 }

@@ -21,8 +21,8 @@ package utils.stack
         {
             if (isEmpty ())
             {
-                trace ("Error: \n\t Objects of type Stack must containt data before you attempt to pop");
-                return;
+                //trace ("Error: \n\t Objects of type Stack must containt data before you attempt to pop");
+                //return;
             }
             var data = first.data;
             first = first.next;
@@ -33,8 +33,8 @@ package utils.stack
         {
             if (isEmpty ())
             {
-                trace ("Error: \n\t Objects of type Stack must containt data before you attempt to peek");
-                return;
+                //trace ("Error: \n\t Objects of type Stack must containt data before you attempt to peek");
+                //return;
             }
             return first.data;
         }
