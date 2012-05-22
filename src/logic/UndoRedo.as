@@ -1,6 +1,7 @@
 package logic
 {
     import utils.stack.Stack;
+    import logic.commands.Command;
 
     public class UndoRedo
     {
@@ -11,7 +12,7 @@ package logic
         {
             
         }
-        
+        // every command must be executed only by this function
         public function execute(cmd:Command):void
         {
             cmd.execute();
