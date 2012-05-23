@@ -11,6 +11,8 @@
 	
 	<fx:Metadata>
 		[Event(name="roomColorChanged", type="events.RoomColorChanged")]
+		[Event(name="objectUrlChanged", type="events.ObjectUrlChanged")]
+		[Event(name="operationTypeChanged", type="events.OperationTypeChanged")]
 	</fx:Metadata>
 	
 	<!-- Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -25,6 +27,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import events.ObjectUrlChanged;
+			import events.OperationTypeChanged;
 			import events.RoomColorChanged;
 			
 			import mx.collections.ArrayCollection;
@@ -57,9 +61,11 @@
 					return;
 				var gObj:GameObject = new GameObject();
 				gObj.name = "obj1";
+				gObj.url = "images/herb.png";
 				objects.addItem(gObj);
 				var gObj2:GameObject = new GameObject();
 				gObj2.name = "obj2";
+				gObj2.url = "images/h.png";
 				objects.addItem(gObj2);
 			}
 			protected function submitButton_clickHandler(event:MouseEvent):void
@@ -69,11 +75,16 @@
 				r.color = roomColor.selectedColor;
 				rooms.addItem(r);
 				//addObjects();
-				importObjects();
+//				importObjects();
 			}
 			protected function objectList_changeHandles(event:IndexChangeEvent): void
 			{
 				list.selectedIndex = -1;
+				var eventObject:ObjectUrlChanged = new ObjectUrlChanged("objectUrlChanged", (objectsList.selectedItem as GameObject).url);
+				dispatchEvent(eventObject);
+				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 1);
+				dispatchEvent(operationEvent);
+				
 			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
@@ -83,6 +94,8 @@
 				
 				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color); 
 				dispatchEvent(eventObject);
+				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
+				dispatchEvent(operationEvent);
 			}
 			
 		]]>

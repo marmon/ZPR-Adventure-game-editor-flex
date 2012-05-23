@@ -7,31 +7,42 @@
 			   applicationComplete="init()">
 	<fx:Script>
 		<![CDATA[
-            import com.adobe.serialization.json.JSON;
-            
-            import events.RoomColorChanged;
-            
-            import logic.UndoRedo;
-            
-            import model.BoardViewModel;
-            
-            import mx.events.FlexEvent;
-            
-            import valueObject.Room;
-            
-            import view.BoardView;
+			import com.adobe.serialization.json.JSON;
+			
+			import events.ObjectUrlChanged;
+			import events.OperationTypeChanged;
+			import events.RoomColorChanged;
+			
+			import logic.UndoRedo;
+			
+			import model.BoardViewModel;
+			
+			import mx.events.FlexEvent;
+			
+			import valueObject.Room;
+			
+			import view.BoardView;
 			var boardView:BoardView;
 			private function init():void
 			{
 				
 				boardView = new BoardView(new BoardViewModel()); // BoardViewModel constructor has reasonable default
 				stage.addChild(boardView);
+				boardView.setOperationType(0);
 				roomCreator.initApp();
 			}
 
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
 			{
 				boardView.setCurrentRoomColor(event.color);
+			}
+			protected function roomCreator_roomUrlChangedHandler(event:ObjectUrlChanged):void
+			{
+				boardView.setUrl(event.url);
+			}
+			protected function roomCreator_roomOperationChanged(event:OperationTypeChanged):void
+			{
+				boardView.setOperationType(event.operationType);
 			}
 			protected function mapToJSON_handler(event:MouseEvent):void
 			{
@@ -59,7 +70,7 @@
 		
 	</fx:Declarations>
 
-	<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" >
+	<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" operationTypeChanged="roomCreator_roomOperationChanged(event)" objectUrlChanged="roomCreator_roomUrlChangedHandler(event)" >
 	</components:RoomCreator>
 	<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>
 	<s:TextArea id="textArea" x="10" y="547" width="378" height="220"/>

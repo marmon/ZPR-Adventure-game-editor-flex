@@ -1,10 +1,14 @@
 package view
 {
+	import flash.display.Loader;
 	import flash.display.Sprite;
+	import flash.events.IOErrorEvent;
+	import flash.net.URLRequest;
 	import flash.text.TextField;
 	
 	import model.BlockViewModel;
 	
+	import mx.controls.Alert;
 	import mx.states.SetStyle;
 	
 	import spark.components.IconPlacement;
@@ -14,21 +18,36 @@ package view
 	{
         public var blockViewModel:BlockViewModel;
         public var blockLenght:uint;
-	//	private var txt:TextField;
-        
-        public function BlockView(blockViewModel:BlockViewModel, blockLength:uint)
+		private var txt:TextField;
+        private var url:String = "images/herb.png";
+        private var loader:Loader = new Loader();
+		public function BlockView(blockViewModel:BlockViewModel, blockLength:uint)
         {
             this.blockViewModel = blockViewModel;
             this.blockLenght = blockLength;
             reposition();
             draw();
+			loadImg();
             buttonMode = true;
+//			icon
 		//	txt = new TextField();
 		//	addChild(txt);
 //			icon="@Embed(source='images/entry.jpg')";
 			
         }
-        
+        private function loadImg():void
+		{
+			
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loadFailure);
+//			var request:URLRequest = new URLRequest(url);
+//			loader.load(request);
+			loader.alpha = 0;
+			this.addChild(loader);
+		}
+		private function loadFailure(event:IOErrorEvent):void
+		{
+			Alert.show("Can't load :" + url);
+		}
         public function reposition():void
         {
             this.x = this.blockViewModel.row*blockLenght;
@@ -47,9 +66,17 @@ package view
             graphics.beginFill(this.blockViewModel.roomColor); 
             graphics.drawRect(0,0,blockLenght, blockLenght);
             graphics.endFill();
+			
 		//	txt.text = "dziala";
         }
-        
+		public function setUrl(url:String)
+		{
+			this.url = url;
+			var request:URLRequest = new URLRequest(url);
+			loader.load(request);
+			loader.alpha = 1;
+			
+		}
 		/*public function BlockView(x:uint, y:uint)
 		{
 			super();
