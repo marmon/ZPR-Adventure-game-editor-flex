@@ -1,13 +1,20 @@
 package view
 {
 	import flash.display.Sprite;
+	import flash.text.TextField;
 	
 	import model.BlockViewModel;
+	
+	import mx.states.SetStyle;
+	
+	import spark.components.IconPlacement;
+	import spark.primitives.Graphic;
 	
 	public class BlockView extends Sprite
 	{
         public var blockViewModel:BlockViewModel;
         public var blockLenght:uint;
+	//	private var txt:TextField;
         
         public function BlockView(blockViewModel:BlockViewModel, blockLength:uint)
         {
@@ -16,6 +23,10 @@ package view
             reposition();
             draw();
             buttonMode = true;
+		//	txt = new TextField();
+		//	addChild(txt);
+//			icon="@Embed(source='images/entry.jpg')";
+			
         }
         
         public function reposition():void
@@ -36,6 +47,7 @@ package view
             graphics.beginFill(this.blockViewModel.roomColor); 
             graphics.drawRect(0,0,blockLenght, blockLenght);
             graphics.endFill();
+		//	txt.text = "dziala";
         }
         
 		/*public function BlockView(x:uint, y:uint)

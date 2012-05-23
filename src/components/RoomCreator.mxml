@@ -28,9 +28,12 @@
 			import events.RoomColorChanged;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			
 			import spark.events.IndexChangeEvent;
 			
+			import valueObject.GameObject;
 			import valueObject.Room;
 			
 			[Bindable]
@@ -39,17 +42,42 @@
 			public var color:uint;
 			
 			protected var rooms:ArrayCollection = new ArrayCollection();
-			
+			protected var objects:ArrayCollection = new ArrayCollection();
+			protected function init(event:FlexEvent):void
+			{
+				importObjects();
+			}
+			public function initApp():void
+			{
+				importObjects();
+			}
+			private function importObjects():void
+			{
+				if(objects.length != 0)
+					return;
+				var gObj:GameObject = new GameObject();
+				gObj.name = "obj1";
+				objects.addItem(gObj);
+				var gObj2:GameObject = new GameObject();
+				gObj2.name = "obj2";
+				objects.addItem(gObj2);
+			}
 			protected function submitButton_clickHandler(event:MouseEvent):void
 			{
 				var r:Room = new Room();
 				r.name = roomName.text;
 				r.color = roomColor.selectedColor;
 				rooms.addItem(r);
+				//addObjects();
+				importObjects();
 			}
-			
+			protected function objectList_changeHandles(event:IndexChangeEvent): void
+			{
+				list.selectedIndex = -1;
+			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
+				objectsList.selectedIndex = -1;
 				room = (list.selectedItem as Room);
 				color = room.color;
 				
@@ -78,6 +106,10 @@
 
 			<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)" enabled="{roomName.text}"/>
 	</s:Group>
+	<s:Label text="Objects"/>
+	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name">
+		
+	</s:List>
 	<s:Form width="100%" height="65">
 		<s:FormItem label="Room name:">
 		</s:FormItem>

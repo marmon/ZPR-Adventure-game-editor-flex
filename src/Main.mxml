@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:components="components.*"
 			   width="1019" height="988" minWidth="955" minHeight="600"
-			   creationComplete="init(event)">
+			   applicationComplete="init()">
 	<fx:Script>
 		<![CDATA[
             import com.adobe.serialization.json.JSON;
@@ -21,17 +21,14 @@
             
             import view.BoardView;
 			var boardView:BoardView;
-			protected function init(event:FlexEvent):void
+			private function init():void
 			{
 				
-                //board = new Board(50);
-				//stage.addChild(board);
-			}
-			protected function button1_clickHandler(event:MouseEvent):void
-			{
 				boardView = new BoardView(new BoardViewModel()); // BoardViewModel constructor has reasonable default
-                stage.addChild(boardView);
+				stage.addChild(boardView);
+				roomCreator.initApp();
 			}
+
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
 			{
 				boardView.setCurrentRoomColor(event.color);
@@ -61,8 +58,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		
 	</fx:Declarations>
-	<s:Button x="254" y="147" label="Button" click="button1_clickHandler(event)"/>
-	
+
 	<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" >
 	</components:RoomCreator>
 	<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>
