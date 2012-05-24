@@ -61,6 +61,7 @@ package logic
     }
 }
 
-class SingletonEnforcer{
+class SingletonEnforcer
+{
     //nothing else required here
 }

@@ -32,6 +32,7 @@
 			import events.RoomColorChanged;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.events.IndexChangedEvent;
 			
@@ -73,9 +74,20 @@
 				var r:Room = new Room();
 				r.name = roomName.text;
 				r.color = roomColor.selectedColor;
+				for each(var room in rooms)
+				{
+					if((room as Room).color == roomColor.selectedColor)
+					{
+						Alert.show("Color must be uniqe!");
+						return;
+					}
+					if((room as Room).name == roomName.text)
+					{
+						Alert.show("Name must be uniqe!");
+						return;
+					}
+				}
 				rooms.addItem(r);
-				//addObjects();
-//				importObjects();
 			}
 			protected function objectList_changeHandles(event:IndexChangeEvent): void
 			{
