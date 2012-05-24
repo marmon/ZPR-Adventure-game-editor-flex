@@ -78,12 +78,12 @@
 				{
 					if((room as Room).color == roomColor.selectedColor)
 					{
-						Alert.show("Color must be uniqe!");
+						Alert.show("Color must be unique!");
 						return;
 					}
 					if((room as Room).name == roomName.text)
 					{
-						Alert.show("Name must be uniqe!");
+						Alert.show("Name must be unique!");
 						return;
 					}
 				}
