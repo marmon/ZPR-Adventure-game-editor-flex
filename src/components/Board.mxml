@@ -103,19 +103,21 @@
             
         ]]>
     </fx:Script>
-    <s:BorderContainer id="border" x="77" y="29" width="245" height="251">
+    <s:BorderContainer id="border" x="0" y="24" width="100%" height="100%">
         <s:Scroller id="scroller" x="0" y="0" width="100%" height="100%">
             <s:VGroup id="vgroup" width="100%" height="100%">
 
             </s:VGroup>
         </s:Scroller>
     </s:BorderContainer>
-    <s:Button id="left" x="0" click="leftButtonClicked(event)" icon="assets/left.png" verticalCenter="2"/>
-    <s:Button id="up" top="0" click="upButtonClicked(event)" horizontalCenter="0" icon="assets/up.png"/>
-    <s:Button id="right" right="0" click="rightButtonClicked(event)" icon="assets/right.png"
-              verticalCenter="0"/>
-    <s:Button id="down" bottom="0" click="downButtonClicked(event)" horizontalCenter="0"
-              icon="assets/down.png"/>
+  
+    <s:HGroup x="0" y="0" width="200" height="22" paddingLeft="4">
+        <s:Button id="left" x="0" click="leftButtonClicked(event)" icon="assets/left.png" verticalCenter="-193"/>
+        <s:Button id="up" top="0" click="upButtonClicked(event)" horizontalCenter="155" icon="assets/up.png"/>
+        <s:Button id="right" right="88" click="rightButtonClicked(event)" icon="assets/right.png"
+                  verticalCenter="-193"/>
+        <s:Button id="down" bottom="387" click="downButtonClicked(event)" horizontalCenter="-87"
+                  icon="assets/down.png"/>
+    </s:HGroup>
     <!--Debug-->
-    <s:TextArea id="textArea" x="30" y="308" height="71" text="asdasdsadsda"/>
 </s:Group>

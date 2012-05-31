@@ -35,7 +35,6 @@ package model
                 }
         }
         
-        // to dziala
         public function insertColumn(position:String):void 
         {
             if(position == FIRST)
@@ -60,7 +59,6 @@ package model
             updatePos();
         }
         
-        // to nie dziala
         public function insertRow(position:String):void
         {
             if(position == FIRST)
