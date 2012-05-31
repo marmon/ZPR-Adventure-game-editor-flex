@@ -10,6 +10,7 @@ package view
 	
 	import logic.UndoRedo;
 	import logic.commands.ChangeBlockColor;
+	import logic.commands.SetItem;
 	
 	import model.BlockViewModel;
 	import model.BoardViewModel;
@@ -98,7 +99,11 @@ package view
 			}
 			if(operationType == 1)
 			{
-				(blockViews[selectedX][selectedY] as BlockView).setUrl(this.url);
+//				(blockViews[selectedX][selectedY] as BlockView).setUrl(this.url);
+				var cmd1:SetItem = new SetItem();
+				cmd1.addBlock((blockViews[selectedX][selectedY] as BlockView));
+				cmd1.url = this.url;
+				UndoRedo.getInstance().execute(cmd1);
 			}
 		}
 		

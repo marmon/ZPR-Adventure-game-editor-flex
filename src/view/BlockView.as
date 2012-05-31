@@ -69,13 +69,17 @@ package view
 			
 		//	txt.text = "dziala";
         }
-		public function setUrl(url:String)
+		public function setUrl(url:String):void
 		{
 			this.url = url;
 			var request:URLRequest = new URLRequest(url);
 			loader.load(request);
 			loader.alpha = 1;
 			
+		}
+		public function deleteUrl():void
+		{
+			loader.unload();
 		}
 		/*public function BlockView(x:uint, y:uint)
 		{
