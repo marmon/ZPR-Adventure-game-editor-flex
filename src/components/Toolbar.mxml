@@ -49,7 +49,7 @@
                 map[erase] = Tools.ERASE;
             }
             
-            private function toggleOffExcept(tool:ToggleButton)
+            private function toggleOffExcept(tool:ToggleButton):void
             {
                 for each (var t:ToggleButton in tools) 
                 {

@@ -4,12 +4,12 @@ package utils.stack
     {
         private var first : Node;
         
-        public function isEmpty ()
+        public function isEmpty ():Boolean
         {
             return first == null;
         }
         
-        public function push (data : Object)
+        public function push (data : Object):void
         {
             var oldFirst : Node = first;
             first = new Node ();
@@ -24,7 +24,7 @@ package utils.stack
                 //trace ("Error: \n\t Objects of type Stack must containt data before you attempt to pop");
                 //return;
             }
-            var data = first.data;
+            var data:Object = first.data;
             first = first.next;
             return data;
         }
