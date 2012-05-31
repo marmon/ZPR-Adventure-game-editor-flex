@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <s:Label x="10" y="10" fontSize="36" text="ZPR Adventure Game Editor"/>
+    <s:Label x="46" y="52" text="Marek Lewandowski"/>
+    <s:Label x="46" y="72" text="Marcin Wlazły"/>
+    <s:Label x="46" y="92" text="Michał Bemowski"/>
+    <s:List x="515" y="121" width="208" height="267"></s:List>
+    <s:Label x="515" y="101" text="Available levels:"/>
+</s:Application>
