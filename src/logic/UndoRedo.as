@@ -24,6 +24,8 @@ package logic
         // every command must be executed only by this function
         public function execute(cmd:Command):void
         {
+            if( ! _undo.isEmpty()) //reset undone command when new command is executed
+                _undo = new Stack();
             cmd.execute();
             this._undo.push(cmd);
             
