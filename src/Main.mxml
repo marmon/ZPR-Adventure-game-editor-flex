@@ -26,8 +26,9 @@
 			private function init():void
 			{
 				
-			//	boardView = new BoardView(new BoardViewModel()); // BoardViewModel constructor has reasonable default
+			//	boardView = new BoardView(0,0,new BoardViewModel()); // BoardViewModel constructor has reasonable default
 			//	stage.addChild(boardView);
+            //    boardView.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
 			//	boardView.setOperationType(0);
 				roomCreator.initApp();
                 board.initBoard();
@@ -38,6 +39,8 @@
             protected function boardDoubleClicked(event:MouseEvent):void
             {
                 textArea.text += "\n board double clicked\n";
+                // TODO: we could initilize change to room view here if it is gonna be done in other compontent
+                // if not, then this handler is rather useless.
             }
 
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void

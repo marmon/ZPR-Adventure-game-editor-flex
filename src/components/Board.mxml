@@ -30,7 +30,13 @@
             {
                 boardView = new BoardView(x,y, new BoardViewModel(), defaultBlockLength);
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
             }
+            
+             protected function boardDoubleClick(event:MouseEvent):void
+            {
+               dispatchEvent(event);
+            } 
             
         ]]>
     </fx:Script>

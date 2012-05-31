@@ -35,7 +35,6 @@ package view
             this.blockLength = defaultBlockLength;
             this.x = x;
             this.y = y;
-//            doubleClickEnabled = true;
             
             blockViews = new Array(boardViewModel.board.length);
             for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)

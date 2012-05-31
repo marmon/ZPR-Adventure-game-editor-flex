@@ -29,6 +29,7 @@ package view
             draw();
 			loadImg();
             buttonMode = true;
+            doubleClickEnabled = true;
 //			icon
 		//	txt = new TextField();
 		//	addChild(txt);
@@ -54,7 +55,7 @@ package view
             this.y = this.blockViewModel.col*blockLenght;
         }
         
-        public function changeColor(color:uint)
+        public function changeColor(color:uint):void
         {
             this.blockViewModel.roomColor = color;
             draw();
