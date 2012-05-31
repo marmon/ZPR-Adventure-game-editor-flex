@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-         xmlns:s="library://ns.adobe.com/flex/spark" 
-         xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         width="400" height="408" contentBackgroundAlpha="0.0" contentBackgroundColor="#FFFFFF">
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
     
     <fx:Script>
         <![CDATA[
+            import view.GridUIComponent;
+            import mx.core.UIComponent;
             import logic.Tools;
             
             import model.BoardViewModel;
@@ -28,9 +31,13 @@
             
             public function initBoard():void
             {
-                boardView = new BoardView(x,y, new BoardViewModel(), defaultBlockLength);
+                boardView = new BoardView(0,0, new BoardViewModel(), defaultBlockLength);
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
+                var container:UIComponent = new GridUIComponent(boardView);
+                //border.addElement( container );
+                vgroup.addElement( container );
+                container.addChild(boardView);
             }
             
              protected function boardDoubleClick(event:MouseEvent):void
@@ -40,4 +47,17 @@
             
         ]]>
     </fx:Script>
+    <s:BorderContainer id="border" x="77" y="29" width="245" height="251" backgroundColor="#E94848">
+        <s:Scroller id="scroller" x="0" y="0" width="100%" height="100%">
+            <s:VGroup id="vgroup" width="100%" height="100%">
+
+            </s:VGroup>
+        </s:Scroller>
+    </s:BorderContainer>
+    <s:Button x="0" label="Button" verticalCenter="2"/>
+    <s:Button top="0" label="Button" horizontalCenter="0"/>
+    <s:Button right="0" label="Button" verticalCenter="0"/>
+    <s:Button bottom="0" label="Button" horizontalCenter="0"/>
+    
+    <s:TextArea id="textArea" x="30" y="308" height="71" text="asdasdsadsda"/>
 </s:Group>

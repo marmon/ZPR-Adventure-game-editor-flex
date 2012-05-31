@@ -32,7 +32,7 @@
 			//	boardView.setOperationType(0);
 				roomCreator.initApp();
                 board.initBoard();
-                stage.addChild(board.boardView);
+               // stage.addChild(board.boardView);
                 board.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
 			}
             

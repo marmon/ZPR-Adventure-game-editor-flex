@@ -8,13 +8,13 @@ package view
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import logic.Tools;
 	import logic.UndoRedo;
 	import logic.commands.ChangeBlockColor;
 	import logic.commands.SetItem;
 	
 	import model.BlockViewModel;
 	import model.BoardViewModel;
-    import logic.Tools;
 	
 	public class BoardView extends Sprite
 	{
@@ -132,6 +132,15 @@ package view
 		{
 			this.url = url;
 		}
+        
+        public function getGridWidth():uint
+        {
+            return boardViewModel.board.length * blockLength;
+        }
+        public function getGridHeight():uint
+        {
+            return boardViewModel.board[0].length * blockLength;
+        }
 		
 	}
 }
