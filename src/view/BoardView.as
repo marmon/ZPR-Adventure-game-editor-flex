@@ -14,6 +14,7 @@ package view
 	
 	import model.BlockViewModel;
 	import model.BoardViewModel;
+    import logic.Tools;
 	
 	public class BoardView extends Sprite
 	{
@@ -21,15 +22,20 @@ package view
 		public var blockLength:uint;
         private var currentRoomColor:uint;
         private var url:String;
-		private var operationType:int;
+        
+		public var tool:String = Tools.SELECTION; 
+        
         public var blockViews:Array; //I wouldn't need that if I could dispatch event from BLockViewModel after color change.
                                     // but it is easier to expiclitly keep references to views.
         
-        public function BoardView(boardViewModel:BoardViewModel, defaultBlockLength:uint = 20)
+        public function BoardView(x:uint, y:uint, boardViewModel:BoardViewModel, defaultBlockLength:uint = 20)
         {
             super();
             this.boardViewModel = boardViewModel;
             this.blockLength = defaultBlockLength;
+            this.x = x;
+            this.y = y;
+//            doubleClickEnabled = true;
             
             blockViews = new Array(boardViewModel.board.length);
             for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
@@ -43,10 +49,15 @@ package view
                     var  blockView:BlockView = new BlockView(boardViewModel.board[row][col], blockLength);
                     this.addChild(blockView);
                     blockView.addEventListener(MouseEvent.CLICK, blockClicked);
-                    
+                    blockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
                     blockViews[row][col] = blockView;
                 }
             }
+        }
+        
+        protected function blockDoubleClicked(event:MouseEvent):void
+        {
+            dispatchEvent(event);
         }
         
 		// Set color to block model and update view to reflect changes.
@@ -67,7 +78,8 @@ package view
 			}
             selectedX = (selectedX / blockLength);
             selectedY = (selectedY / blockLength);
-            if(operationType == 0)	
+            
+            if(tool == Tools.PAINT)	
 			{
 	            --selectedX;
 	            --selectedY;
@@ -97,24 +109,26 @@ package view
 	            UndoRedo.getInstance().execute(cmd);
 				return;
 			}
-			if(operationType == 1)
+            else if( tool == Tools.ERASE)
+            {
+                // TODO handle erase here
+            }
+            
+			/*if(operationType == 1)
 			{
 //				(blockViews[selectedX][selectedY] as BlockView).setUrl(this.url);
 				var cmd1:SetItem = new SetItem();
 				cmd1.addBlock((blockViews[selectedX][selectedY] as BlockView));
 				cmd1.url = this.url;
 				UndoRedo.getInstance().execute(cmd1);
-			}
+			}*/
 		}
 		
-		public function setCurrentRoomColor(color:uint)
+		public function setCurrentRoomColor(color:uint):void
         {
             this.currentRoomColor = color;
         }
-		public function setOperationType(operationType:int):void
-		{
-			this.operationType = operationType;
-		}
+		
 		public function setUrl(url:String):void
 		{
 			this.url = url;
