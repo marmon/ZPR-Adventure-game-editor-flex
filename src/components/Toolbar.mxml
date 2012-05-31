@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" 
+         xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="50"
+         creationComplete="init(event)">
+    <s:layout>
+        <s:HorizontalLayout/>
+    </s:layout>
+    
+    <fx:Script>
+        <![CDATA[
+            import logic.Tools;
+            
+            import mx.collections.ArrayCollection;
+            import mx.events.FlexEvent;
+            
+            
+            [Bindable]
+            public var tool:String = Tools.SELECTION; 
+            
+            private var tools:ArrayCollection = new ArrayCollection();
+            private var map:Dictionary = new Dictionary();
+            
+            protected function changeTool(event:MouseEvent):void
+            {
+                if((event.target as ToggleButton).selected) // Up to down
+                {
+                    toggleOffExcept(event.target as ToggleButton);  
+                    tool = map[event.target as ToggleButton];
+                }
+                else // down to up
+                {
+                    tool = Tools.SELECTION;
+                    select.selected = true; // if nothing is selected then SELECT tool is selected
+                                            // that is SELECT tool can not be toggled off
+                }
+            }
+            
+            
+            protected function init(event:FlexEvent):void
+            {
+                select.selected = true;
+                tools.addItem(select);
+                tools.addItem(paint);
+                tools.addItem(erase);
+                
+                map[select] = Tools.SELECTION;
+                map[paint] = Tools.PAINT;
+                map[erase] = Tools.ERASE;
+            }
+            
+            private function toggleOffExcept(tool:ToggleButton)
+            {
+                for each (var t:ToggleButton in tools) 
+                {
+                    if(t != tool)
+                        t.selected = false;
+                }
+                
+            }
+            
+        ]]>
+    </fx:Script>
+    
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <s:ToggleButton id="select" label="select" click="changeTool(event)"/>
+    <s:ToggleButton id="erase" label="erase" click="changeTool(event)"/>
+    <s:ToggleButton id="paint" label="paint" click="changeTool(event)"/>
+    
+</s:Group>
