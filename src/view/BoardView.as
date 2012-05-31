@@ -106,6 +106,8 @@ package view
 					col = (blockViews[row] as Array).length - 1;
 	            cmd.oldColor = (blockViews[row][col] as BlockView).blockViewModel.roomColor;
 	            UndoRedo.getInstance().execute(cmd);
+                var eventObject:Event = new Event("roomChanged");
+                dispatchEvent(eventObject);
 				return;
 			}
             else if( tool == Tools.ERASE)

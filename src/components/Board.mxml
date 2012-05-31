@@ -39,7 +39,8 @@
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
                 var container:UIComponent = new GridUIComponent(boardView);
                 container.addChild(boardView);
-                //border.addElement( container );
+                //border.addElement( container )
+                boardView.addEventListener("roomChanged", roomChanged);
                 vgroup.addElement( container );
                 
                 //minimap
@@ -66,6 +67,10 @@
                 container.addChild(boardView);
                 vgroup.addElement( container );
                 
+                updateMinimap();
+            }
+            private function updateMinimap():void
+            {
                 minimapBorder.removeAllElements();
                 var size:uint = boardViewModel.board.length > boardViewModel.board[0].length ? boardViewModel.board.length : boardViewModel.board[0].length;
                 minimapView = new BoardView(0,0, boardViewModel , minimapSize / size);
@@ -96,6 +101,11 @@
             {
                 boardViewModel.insertRow(BoardViewModel.LAST);
                 updateViews();
+            }
+            
+            protected function roomChanged(event:Event):void
+            {
+                updateMinimap();
             }
             
         ]]>
