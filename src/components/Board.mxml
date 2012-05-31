@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
-         width="400" height="408" contentBackgroundAlpha="0.0" contentBackgroundColor="#FFFFFF">
+         width="468" height="408" contentBackgroundAlpha="0.0" contentBackgroundColor="#FFFFFF">
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
@@ -21,15 +21,15 @@
             import view.GridUIComponent;
             
             public var boardView:BoardView;
-            
+            public var minimapView:BoardView;
             private var boardViewModel:BoardViewModel;
             
             [Bindable]
             public var defaultBlockLength:uint = 20;
             [Bindable]
             public var tool:String = Tools.SELECTION;
-            
-            
+            [Bindable]
+            private var minimapSize:uint = 100;
             
             public function initBoard():void
             {
@@ -41,6 +41,13 @@
                 container.addChild(boardView);
                 //border.addElement( container );
                 vgroup.addElement( container );
+                
+                //minimap
+                var size:uint = boardView.getGridHeight() > boardView.getGridWidth() ? boardView.getGridHeight() : boardView.getGridWidth();
+                minimapView = new BoardView(0,0, boardViewModel , size / minimapSize);
+                var minimapContainer:UIComponent = new GridUIComponent(boardView);
+                minimapContainer.addChild(minimapView);
+                minimapBorder.addElement(minimapContainer);
                 
             }
             
@@ -109,6 +116,9 @@
 
             </s:VGroup>
         </s:Scroller>
+    </s:BorderContainer>
+    <s:BorderContainer id="minimapBorder" right="20" top="0" width="{minimapSize}" height="{minimapSize}">
+        
     </s:BorderContainer>
   
     <s:HGroup x="0" y="0" width="200" height="22" paddingLeft="4">
