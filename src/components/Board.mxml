@@ -9,41 +9,97 @@
     
     <fx:Script>
         <![CDATA[
-            import view.GridUIComponent;
-            import mx.core.UIComponent;
             import logic.Tools;
             
             import model.BoardViewModel;
             
             import mx.binding.utils.BindingUtils;
+            import mx.core.UIComponent;
             import mx.events.FlexEvent;
             
             import view.BoardView;
+            import view.GridUIComponent;
             
             public var boardView:BoardView;
             
-            //public var boardViewModel:BoardViewModel;
+            private var boardViewModel:BoardViewModel;
             
             [Bindable]
             public var defaultBlockLength:uint = 20;
             [Bindable]
             public var tool:String = Tools.SELECTION;
             
+            
+            
             public function initBoard():void
             {
-                boardView = new BoardView(0,0, new BoardViewModel(), defaultBlockLength);
+                boardViewModel = new BoardViewModel();
+                boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
                 var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
                 //border.addElement( container );
                 vgroup.addElement( container );
-                container.addChild(boardView);
+                
             }
             
              protected function boardDoubleClick(event:MouseEvent):void
             {
                dispatchEvent(event);
             } 
+            
+            protected function upButtonClicked(event:MouseEvent):void
+            {
+                boardViewModel.insertRow(BoardViewModel.FIRST);
+                
+                vgroup.removeAllElements();
+                boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
+                BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
+                vgroup.addElement( container );
+                
+            }
+            
+            protected function leftButtonClicked(event:MouseEvent):void
+            {
+                boardViewModel.insertColumn(BoardViewModel.FIRST);
+                
+                vgroup.removeAllElements();
+                boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
+                BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
+                vgroup.addElement( container );
+                
+            }
+            
+            protected function rightButtonClicked(event:MouseEvent):void
+            {
+                boardViewModel.insertColumn(BoardViewModel.LAST);
+                
+                vgroup.removeAllElements();
+                boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
+                BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
+                vgroup.addElement( container );
+
+            }
+            
+            protected function downButtonClicked(event:MouseEvent):void
+            {
+                boardViewModel.insertRow(BoardViewModel.LAST);
+                
+                vgroup.removeAllElements();
+                boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
+                BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
+                vgroup.addElement( container );
+                
+            }
             
         ]]>
     </fx:Script>
@@ -54,10 +110,12 @@
             </s:VGroup>
         </s:Scroller>
     </s:BorderContainer>
-    <s:Button x="0" label="Extend left" verticalCenter="2"/>
-    <s:Button top="0" label="Button" horizontalCenter="0"/>
-    <s:Button right="0" label="Button" verticalCenter="0"/>
-    <s:Button bottom="0" label="Button" horizontalCenter="0"/>
+    <s:Button id="left" x="0" click="leftButtonClicked(event)" icon="assets/left.png" verticalCenter="2"/>
+    <s:Button id="up" top="0" click="upButtonClicked(event)" horizontalCenter="0" icon="assets/up.png"/>
+    <s:Button id="right" right="0" click="rightButtonClicked(event)" icon="assets/right.png"
+              verticalCenter="0"/>
+    <s:Button id="down" bottom="0" click="downButtonClicked(event)" horizontalCenter="0"
+              icon="assets/down.png"/>
     <!--Debug-->
     <s:TextArea id="textArea" x="30" y="308" height="71" text="asdasdsadsda"/>
 </s:Group>
