@@ -75,11 +75,19 @@ package view
             }
             
             // Adding 9 model blocks into each view object.
-            for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
+            for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
             {
-                for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
+                for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
                 {
-                    (bigBlockViews[row / 3][col / 3] as BigBlockView).addBlockViewModel(boardViewModel[row][col]);
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3 + 2] );
                 }
             }
         }
