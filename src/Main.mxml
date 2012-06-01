@@ -9,6 +9,8 @@
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
+			import config.Config;
+			
 			import events.ObjectUrlChanged;
 			import events.OperationTypeChanged;
 			import events.RoomColorChanged;
@@ -17,12 +19,20 @@
 			
 			import model.BoardViewModel;
 			
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.URLUtil;
 			
 			import valueObject.Room;
 			
 			import view.BoardView;
+			[Bindable]
+			private var backpackArray_ : Array = null;
 			private var boardView:BoardView;
+			private var remoteObj:RemoteObject = null;
 			private function init():void
 			{
 				
@@ -30,19 +40,65 @@
 			//	stage.addChild(boardView);
             //    boardView.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
 			//	boardView.setOperationType(0);
-				roomCreator.initApp();
+				//roomCreator.initApp();
                 board.initBoard();
                // stage.addChild(board.boardView);
                 board.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
+				var conf : Config = Config.getInstance();
+
+				var swf_url :String = FlexGlobals.topLevelApplication.loaderInfo.url;
+				if (URLUtil.isHttpURL(swf_url) ) {
+					conf.setURL( URLUtil.getProtocol(swf_url), URLUtil.getServerNameWithPort(swf_url) );
+				}
+				
+				remoteObj = new RemoteObject();
+				remoteObj.endpoint = conf.getEndpoint();
+				remoteObj.destination = conf.getDestination();
+				remoteObj.echo.addEventListener("result",onResultEcho);
+				remoteObj.readRooms.addEventListener("result", onReadRooms);
+//				remoteObj.delBackpack.addEventListener("result", onDelBackpack);
+//				remoteObj.readBackpackDetails.addEventListener("result",onReadBackpackDetails);
+//				remoteObj.delBackpackItem.addEventListener("result",onDelBackpackItem);
+				remoteObj.addEventListener("fault", onFault);
+				
+				var param:String = "Hello ";
+				remoteObj.echo(param);
 			}
-            
+			private function refreshClick() : void {
+				sendRefresh(null);
+			}
             protected function boardDoubleClicked(event:MouseEvent):void
             {
                 textArea.text += "\n board double clicked\n";
                 // TODO: we could initilize change to room view here if it is gonna be done in other compontent
                 // if not, then this handler is rather useless.
             }
-
+			private function onReadRooms(re:ResultEvent) : void {
+				textArea.text = "Pierwszy element: nazwa";
+				
+				backpackArray_ = re.result as Array;
+				var ans:Object = backpackArray_[2];
+				textArea.text += ans.name as String;
+				textArea.text += (ans.color as uint).toString();
+//				setSelectedBackpack( -1 );
+			}
+			private function onFault(fault:FaultEvent) : void {
+				textArea.text = "fault: ";
+				textArea.text += fault.message;
+				
+				for( var d : String in fault.fault )
+				{
+					textArea.text += fault.fault[d] + "\n";
+				}
+				
+			}
+			private function onResultEcho(re:ResultEvent) : void {
+				textArea.text = "echo received";
+				sendRefresh(null);
+			}
+			private function sendRefresh(event:Event) : void {
+				remoteObj.readRooms();
+			}
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
 			{
 				boardView.setCurrentRoomColor(event.color);
@@ -68,7 +124,9 @@
                 UndoRedo.getInstance().redo();
                 
             }
-            
+			private function bpListChange() : void {
+		//		setSelectedBackpack( backpackArray_[listBackpack.selectedIndex].id );
+			}
         ]]>
 	</fx:Script>
 	
@@ -86,7 +144,9 @@
     <s:Button x="140" y="504" label="Redo" click="redo(event)"/>
     <components:Toolbar id="toolbar" x="32" y="475">
     </components:Toolbar>
-    <components:Board id="board" x="10" y="10" width="572" height="444" defaultBlockLength="30"
+	<mx:List id="listBackpack" x="800" y="800" width="150" height="500" dataProvider="{backpackArray_}" change="bpListChange()" />
+	<mx:Button id="refreshBackpackList" x="800" y="700" label="refresh" click = "refreshClick()" />
+	<components:Board id="board" x="10" y="10" width="572" height="444" defaultBlockLength="30"
                       tool="{toolbar.tool}"/>
 </s:Application>
 
