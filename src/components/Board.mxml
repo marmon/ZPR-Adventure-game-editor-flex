@@ -66,6 +66,7 @@
                 var container:UIComponent = new GridUIComponent(boardView);
                 container.addChild(boardView);
                 vgroup.addElement( container );
+                boardView.addEventListener("roomChanged", roomChanged);
                 
                 updateMinimap();
             }
