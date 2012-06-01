@@ -68,7 +68,7 @@ package view
             {
                 for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
                 {
-                    var bigBlockView:BigBlockView = new BigBlockView();
+                    var bigBlockView:BigBlockView = new BigBlockView(blockLength);
                     bigBlockViews[row][col] = bigBlockView;
                     bigBlockView.x = col*blockLength;
                     bigBlockView.y = row*blockLength;
@@ -83,15 +83,16 @@ package view
             {
                 for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
                 {
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3 + 1] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3][col*3 + 2] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3 + 1] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 1][col*3 + 2] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3 + 1] );
-                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel[row*3 + 2][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 1][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 1][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 1][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 2][col*3] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 2][col*3 + 1] );
+                    (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 2][col*3 + 2] );
+                    (bigBlockViews[row][col] as BigBlockView).draw();
                 }
             }
         }
@@ -126,7 +127,7 @@ package view
 	            var cmd:ChangeBlockColor = new ChangeBlockColor();
 	            var row:int = selectedY;
 	            var col:int = selectedX;
-                cmd.oldColor = bigBlockViews[row][col].color;
+                cmd.oldColor = bigBlockViews[row][col].getCurrentColor();
                 cmd.newColor = currentRoomColor;
                 cmd.bigBlockView = bigBlockViews[row][col];
                 UndoRedo.getInstance().execute(cmd);

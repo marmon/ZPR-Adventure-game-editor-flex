@@ -2,12 +2,11 @@ package view
 {
     import flash.display.Sprite;
     
-    import mx.collections.ArrayCollection;
     import model.BlockViewModel;
     
     public class BigBlockView extends Sprite
     {
-        private var blocksViewModel:ArrayCollection = new Array(9);
+        private var blocksViewModel:Array = new Array();
         public var blockLenght:uint;
         public function BigBlockView(blockLength:uint)
         {
@@ -19,7 +18,12 @@ package view
         
         public function addBlockViewModel(blockViewModel:BlockViewModel):void
         {
-            blocksViewModel.addItem(blockViewModel);
+            blocksViewModel[blocksViewModel.length] = blockViewModel;
+        }
+        
+        public function getCurrentColor():uint
+        {
+            return blocksViewModel[0].roomColor;
         }
         
         public function changeColor(color:uint):void
