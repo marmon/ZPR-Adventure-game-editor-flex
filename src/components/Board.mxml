@@ -31,6 +31,8 @@
             [Bindable]
             private var minimapSize:uint = 100;
             
+            public var currentColor:uint;
+            
             public function initBoard():void
             {
                 boardViewModel = new BoardViewModel();
@@ -39,9 +41,9 @@
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
                 var container:UIComponent = new GridUIComponent(boardView);
                 container.addChild(boardView);
-                //border.addElement( container )
                 boardView.addEventListener("roomChanged", roomChanged);
                 vgroup.addElement( container );
+                boardView.setCurrentRoomColor(currentColor);
                 
                 //minimap
                 minimapBorder.removeAllElements();
@@ -51,6 +53,12 @@
                 minimapContainer.addChild(minimapView);
                 minimapBorder.addElement(minimapContainer);
                 
+            }
+            
+            public function setCurrentColor(color:uint):void
+            {
+                currentColor = color;
+                boardView.setCurrentRoomColor(currentColor);
             }
             
              protected function boardDoubleClick(event:MouseEvent):void
@@ -67,6 +75,7 @@
                 container.addChild(boardView);
                 vgroup.addElement( container );
                 boardView.addEventListener("roomChanged", roomChanged);
+                boardView.setCurrentRoomColor(currentColor);
                 
                 updateMinimap();
             }

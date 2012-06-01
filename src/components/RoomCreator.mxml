@@ -123,8 +123,8 @@
 				
 				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color); 
 				dispatchEvent(eventObject);
-				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
-				dispatchEvent(operationEvent);
+				//var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
+				//dispatchEvent(operationEvent);
 			}
 			
 		]]>
