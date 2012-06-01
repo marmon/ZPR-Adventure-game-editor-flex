@@ -80,6 +80,10 @@
                     // TODO show object list
                     // TODO turn off some paint tools
                 }
+                vgroup.removeAllElements();
+                var container:UIComponent = new GridUIComponent(boardView);
+                container.addChild(boardView);
+                vgroup.addElement( container );
             } 
             
             private function updateViews():void
