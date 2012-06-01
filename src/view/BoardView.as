@@ -178,11 +178,11 @@ package view
         {
             if ( isRoomModeOn )
             {
-                return boardViewModel.board.length * blockLength;
+                return blockViews[0].length * blockLength;
             }
             else
             {
-                return (boardViewModel.board.length / 3) * blockLength;
+                return bigBlockViews[0].length * blockLength;
             }
             
         }
@@ -190,11 +190,12 @@ package view
         {
             if ( isRoomModeOn )
             {
-                return boardViewModel.board[0].length * blockLength;
+                //return bigBlockViews.length * blockLength;
+                return blockViews.length * blockLength;
             }
             else
             {
-                return (boardViewModel.board[0].length /3) * blockLength;
+                return bigBlockViews.length * blockLength;
             }
         }
 		

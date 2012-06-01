@@ -40,7 +40,7 @@ package model
                 }
         }
         
-        public function insertColumn(position:String):void 
+        public function insertRow(position:String):void 
         {
             for(var i:int = 0 ; i < 3 ; ++i)
             {
@@ -67,7 +67,7 @@ package model
             updatePos();
         }
         
-        public function insertRow(position:String):void
+        public function insertColumn(position:String):void
         {
             for(var i:int = 0 ; i < 3 ; ++i)
             {
