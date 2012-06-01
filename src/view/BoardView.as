@@ -41,23 +41,7 @@ package view
             this.x = x;
             this.y = y;
             
-           /* blockViews = new Array(boardViewModel.board.length);
-            for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
-                blockViews[row] = new Array(boardViewModel.board[row].length);
             
-            
-            
-            for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
-            {
-                for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
-                {
-                    var  blockView:BlockView = new BlockView(boardViewModel.board[row][col], blockLength);
-                    this.addChild(blockView);
-                    blockView.addEventListener(MouseEvent.CLICK, blockClicked);
-                    blockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
-                    blockViews[row][col] = blockView;
-                }
-            }*/
             
             // Initialization of BigBlockView
             bigBlockViews = new Array(boardViewModel.board.length / 3);
@@ -74,7 +58,7 @@ package view
                     bigBlockView.y = row*blockLength;
                     this.addChild(bigBlockView);
                     bigBlockView.addEventListener(MouseEvent.CLICK, bigBlockClicked);
-                    //bigbBockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
+                    bigBlockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
                 }
             }
             
@@ -93,6 +77,63 @@ package view
                     (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 2][col*3 + 1] );
                     (bigBlockViews[row][col] as BigBlockView).addBlockViewModel( boardViewModel.board[row*3 + 2][col*3 + 2] );
                     (bigBlockViews[row][col] as BigBlockView).draw();
+                }
+            }
+        }
+        
+        protected function blockClicked(event:MouseEvent):void
+        {
+            // TODO Auto-generated method stub
+            
+        }
+        
+        public function setIsRoomModeOn(value:Boolean):void
+        {
+            isRoomModeOn = value;
+            if (isRoomModeOn) // go to room mode
+            {
+                // remove BigBlocks 
+                for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
+                {
+                    for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
+                    {
+                        this.removeChild(bigBlockViews[row][col]); 
+                    }
+                }
+                // create Block view
+                blockViews = new Array(boardViewModel.board.length);
+                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
+                    blockViews[row] = new Array(boardViewModel.board[row].length);
+                
+                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
+                {
+                    for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
+                    {
+                        var  blockView:BlockView = new BlockView(boardViewModel.board[row][col], blockLength);
+                        this.addChild(blockView);
+                        blockView.addEventListener(MouseEvent.CLICK, blockClicked);
+                        blockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
+                        blockViews[row][col] = blockView;
+                    }
+                }
+            }
+            else // go back to big block mode
+            {
+                // remove blocks
+                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
+                {
+                    for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
+                    {
+                        this.removeChild(blockViews[row][col]);
+                    }
+                }
+                // add bigblocks
+                for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
+                {
+                    for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
+                    {
+                        this.addChild(bigBlockViews[row][col]); 
+                    }
                 }
             }
         }
@@ -134,29 +175,6 @@ package view
                 var eventObject:Event = new Event("roomChanged");
                 dispatchEvent(eventObject);
                 return;
-	            /*for(row = selectedX ; row < selectedX + 3; ++row)
-	            {
-	                if( row >= 0 && row < blockViews.length){      
-	                    for(col = selectedY ; col < selectedY + 3; ++col)
-	                    {
-	                        if( col >= 0 && col < blockViews[row].length)
-	                        {
-	                            //(blockViews[row][col] as BlockView).changeColor(currentRoomColor);
-	                            cmd.addBlock(blockViews[row][col]);
-	                        }
-	                    }
-	                }
-	            }
-	            cmd.newColor = currentRoomColor;
-				if(row >= blockViews.length)
-					row = blockViews.length - 1;
-				if(col >= (blockViews[row] as Array).length)
-					col = (blockViews[row] as Array).length - 1;
-	            cmd.oldColor = (blockViews[row][col] as BlockView).blockViewModel.roomColor;
-	            UndoRedo.getInstance().execute(cmd);
-                var eventObject:Event = new Event("roomChanged");
-                dispatchEvent(eventObject);
-				return;*/
 			}
             else if( tool == Tools.ERASE)
             {

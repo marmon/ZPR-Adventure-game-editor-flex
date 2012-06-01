@@ -7,6 +7,11 @@ package view
     public class BigBlockView extends Sprite
     {
         private var blocksViewModel:Array = new Array();
+        /* Blocks position in array
+                0 1 2
+                3 4 5
+                6 7 9
+        */
         public var blockLenght:uint;
         public function BigBlockView(blockLength:uint)
         {

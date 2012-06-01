@@ -48,6 +48,7 @@
                 //minimap
                 minimapBorder.removeAllElements();
                 var size:uint = boardViewModel.board.length > boardViewModel.board[0].length ? boardViewModel.board.length : boardViewModel.board[0].length;
+                size /= 3;
                 minimapView = new BoardView(0,0, boardViewModel , minimapSize / size);
                 var minimapContainer:UIComponent = new GridUIComponent(boardView);
                 minimapContainer.addChild(minimapView);
@@ -63,7 +64,22 @@
             
              protected function boardDoubleClick(event:MouseEvent):void
             {
-               dispatchEvent(event);
+               //dispatchEvent(event);
+                if(boardView.isRoomModeOn)
+                {
+                    // switch to big block mode
+                    boardView.setIsRoomModeOn(false);
+                    // TODO show minimap
+                    // TODO turn off some tools
+                    // TODO hide objects
+                } else
+                {
+                    // switch to room mode
+                    boardView.setIsRoomModeOn(true);
+                    // TODO turn off extending arrows etc.
+                    // TODO show object list
+                    // TODO turn off some paint tools
+                }
             } 
             
             private function updateViews():void
@@ -83,6 +99,7 @@
             {
                 minimapBorder.removeAllElements();
                 var size:uint = boardViewModel.board.length > boardViewModel.board[0].length ? boardViewModel.board.length : boardViewModel.board[0].length;
+                size /= 3;
                 minimapView = new BoardView(0,0, boardViewModel , minimapSize / size);
                 var minimapContainer:UIComponent = new GridUIComponent(boardView);
                 minimapContainer.addChild(minimapView);

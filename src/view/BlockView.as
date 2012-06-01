@@ -51,8 +51,8 @@ package view
 		}
         public function reposition():void
         {
-            this.x = this.blockViewModel.row*blockLenght;
-            this.y = this.blockViewModel.col*blockLenght;
+            this.x = this.blockViewModel.col*blockLenght;
+            this.y = this.blockViewModel.row*blockLenght;
         }
         
         public function changeColor(color:uint):void
