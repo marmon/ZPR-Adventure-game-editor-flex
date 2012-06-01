@@ -27,6 +27,7 @@ package view
         
         public var blockViews:Array; //I wouldn't need that if I could dispatch event from BLockViewModel after color change.
                                     // but it is easier to expiclitly keep references to views.
+        public var bigBlockViews:Array;
         
         public function BoardView(x:uint, y:uint, boardViewModel:BoardViewModel, defaultBlockLength:uint = 20)
         {
@@ -41,6 +42,7 @@ package view
                 blockViews[row] = new Array(boardViewModel.board[row].length);
             
             
+            
             for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
             {
                 for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
@@ -52,6 +54,34 @@ package view
                     blockViews[row][col] = blockView;
                 }
             }
+            
+            // Initialization of BigBlockView
+            bigBlockViews = new Array(boardViewModel.board.length / 3);
+            for(var row:int = 0 ; row < boardViewModel.board.length / 3 ; ++row)
+                bigBlockViews[row] = new Array(boardViewModel.board[row].length / 3);
+            // Creating objects in array
+            for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
+            {
+                for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
+                {
+                    var bigBlockView:BigBlockView = new BigBlockView();
+                    bigBlockViews[row][col] = bigBlockView;
+                    bigBlockView.x = col*blockLength;
+                    bigBlockView.y = row*blockLength;
+                    this.addChild(bigBlockView);
+                    bigBlockView.addEventListener(MouseEvent.CLICK, bigBlockClicked);
+                    //bigbBockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
+                }
+            }
+            
+            // Adding 9 model blocks into each view object.
+            for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
+            {
+                for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
+                {
+                    (bigBlockViews[row / 3][col / 3] as BigBlockView).addBlockViewModel(boardViewModel[row][col]);
+                }
+            }
         }
         
         protected function blockDoubleClicked(event:MouseEvent):void
@@ -60,33 +90,38 @@ package view
         }
         
 		// Set color to block model and update view to reflect changes.
-		protected function blockClicked(event:MouseEvent):void
+		protected function bigBlockClicked(event:MouseEvent):void
 		{
 			var selectedX:int;
 			var selectedY:int 
 			if(event.target is Loader)
 			{
-	            selectedX = ((event.target as Loader).parent as BlockView).x;
-	            selectedY = ((event.target as Loader).parent as BlockView).y;
+	            selectedX = ((event.target as Loader).parent as BigBlockView).x;
+	            selectedY = ((event.target as Loader).parent as BigBlockView).y;
 				
 			}
 			else
 			{
-				selectedX = (event.target as BlockView).x;
-				selectedY = (event.target as BlockView).y;
+				selectedX = (event.target as BigBlockView).x;
+				selectedY = (event.target as BigBlockView).y;
 			}
             selectedX = (selectedX / blockLength);
             selectedY = (selectedY / blockLength);
             
             if(tool == Tools.PAINT)	
 			{
-	            --selectedX;
-	            --selectedY;
             // Cmd design pattern
 	            var cmd:ChangeBlockColor = new ChangeBlockColor();
-	            var row:int;    // outside of for because I want to access last block added to check for the old color
-	            var col:int;
-	            for(row = selectedX ; row < selectedX + 3; ++row)
+	            var row:int = selectedY;
+	            var col:int = selectedX;
+                cmd.oldColor = bigBlockViews[row][col].color;
+                cmd.newColor = currentRoomColor;
+                cmd.bigBlockView = bigBlockViews[row][col];
+                UndoRedo.getInstance().execute(cmd);
+                var eventObject:Event = new Event("roomChanged");
+                dispatchEvent(eventObject);
+                return;
+	            /*for(row = selectedX ; row < selectedX + 3; ++row)
 	            {
 	                if( row >= 0 && row < blockViews.length){      
 	                    for(col = selectedY ; col < selectedY + 3; ++col)
@@ -108,21 +143,12 @@ package view
 	            UndoRedo.getInstance().execute(cmd);
                 var eventObject:Event = new Event("roomChanged");
                 dispatchEvent(eventObject);
-				return;
+				return;*/
 			}
             else if( tool == Tools.ERASE)
             {
                 // TODO handle erase here
             }
-            
-			/*if(operationType == 1)
-			{
-//				(blockViews[selectedX][selectedY] as BlockView).setUrl(this.url);
-				var cmd1:SetItem = new SetItem();
-				cmd1.addBlock((blockViews[selectedX][selectedY] as BlockView));
-				cmd1.url = this.url;
-				UndoRedo.getInstance().execute(cmd1);
-			}*/
 		}
 		
 		public function setCurrentRoomColor(color:uint):void
