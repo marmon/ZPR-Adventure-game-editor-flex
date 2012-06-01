@@ -30,7 +30,8 @@ package logic.commands
         {
             for each (var blockView:BlockView in blockViews) 
             {
-                blockView.changeColor(newColor);   
+                blockView.changeColor(newColor);
+                blockView.draw();
             }
         }
         
@@ -39,6 +40,7 @@ package logic.commands
             for each (var blockView:BlockView in blockViews) 
             {
                 blockView.changeColor(oldColor);
+                blockView.draw();
             }
             
         }

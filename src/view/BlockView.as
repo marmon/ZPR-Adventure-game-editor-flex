@@ -58,7 +58,6 @@ package view
         public function changeColor(color:uint):void
         {
             this.blockViewModel.roomColor = color;
-            draw();
         }
         
         public function draw():void
@@ -67,8 +66,6 @@ package view
             graphics.beginFill(this.blockViewModel.roomColor); 
             graphics.drawRect(0,0,blockLenght, blockLenght);
             graphics.endFill();
-			
-		//	txt.text = "dziala";
         }
 		public function setUrl(url:String):void
 		{
