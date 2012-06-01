@@ -29,6 +29,10 @@ package view
                                     // but it is easier to expiclitly keep references to views.
         public var bigBlockViews:Array;
         
+        // true - mode where you add objects to room
+        // false - mode where you create rooms and add doors
+        public var isRoomModeOn:Boolean = false;
+        
         public function BoardView(x:uint, y:uint, boardViewModel:BoardViewModel, defaultBlockLength:uint = 20)
         {
             super();
@@ -37,7 +41,7 @@ package view
             this.x = x;
             this.y = y;
             
-            blockViews = new Array(boardViewModel.board.length);
+           /* blockViews = new Array(boardViewModel.board.length);
             for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
                 blockViews[row] = new Array(boardViewModel.board[row].length);
             
@@ -53,7 +57,7 @@ package view
                     blockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
                     blockViews[row][col] = blockView;
                 }
-            }
+            }*/
             
             // Initialization of BigBlockView
             bigBlockViews = new Array(boardViewModel.board.length / 3);
@@ -171,11 +175,26 @@ package view
         
         public function getGridWidth():uint
         {
-            return boardViewModel.board.length * blockLength;
+            if ( isRoomModeOn )
+            {
+                return boardViewModel.board.length * blockLength;
+            }
+            else
+            {
+                return (boardViewModel.board.length / 3) * blockLength;
+            }
+            
         }
         public function getGridHeight():uint
         {
-            return boardViewModel.board[0].length * blockLength;
+            if ( isRoomModeOn )
+            {
+                return boardViewModel.board[0].length * blockLength;
+            }
+            else
+            {
+                return (boardViewModel.board[0].length /3) * blockLength;
+            }
         }
 		
 	}
