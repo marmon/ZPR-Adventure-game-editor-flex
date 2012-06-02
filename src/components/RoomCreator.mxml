@@ -28,28 +28,30 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import config.Config;
-			
-			import events.ObjectUrlChanged;
-			import events.OperationTypeChanged;
-			import events.RoomColorChanged;
-			
-			import logic.UndoRedo;
-			import logic.commands.AddRoom;
-			
-			import mx.collections.ArrayCollection;
-			import mx.controls.Alert;
-			import mx.events.FlexEvent;
-			import mx.events.IndexChangedEvent;
-			import mx.rpc.events.ResultEvent;
-			import mx.rpc.remoting.mxml.RemoteObject;
-			
-			import spark.events.IndexChangeEvent;
-			
-			import utils.stack.Stack;
-			
-			import valueObject.GameObject;
-			import valueObject.Room;
+            import config.Config;
+            
+            import events.ObjectUrlChanged;
+            import events.OperationTypeChanged;
+            import events.RoomColorChanged;
+            
+            import logic.UndoRedo;
+            import logic.commands.AddRoom;
+            
+            import mx.collections.ArrayCollection;
+            import mx.controls.Alert;
+            import mx.events.FlexEvent;
+            import mx.events.IndexChangedEvent;
+            import mx.rpc.events.ResultEvent;
+            import mx.rpc.remoting.mxml.RemoteObject;
+            
+            import spark.events.IndexChangeEvent;
+            
+            import utils.stack.Stack;
+            
+            import valueObject.GameObject;
+            import valueObject.Room;
+
+
 			
 			[Bindable]
 			public var room:Room;
@@ -195,6 +197,24 @@
             protected function deleteRoom_clickHandler(event:MouseEvent):void
             {
                 dispatchEvent(new Event("deleteRoomEvt"));   
+            }
+            
+            public function removeRoomFromTheList(room:Room):int
+            {
+                var index:int = 0;
+                for(var i:int = 0 ; i < rooms.length ; ++i)
+                    if((rooms[i] as Room).id = room.id)
+                    {
+                        index = i;
+                        break;
+                    }
+                rooms.removeItemAt(index);
+                return index;
+            }
+            
+            public function addRoomToTheList(room:Room, index:int):void
+            {
+                rooms.addItemAt(room, index);
             }
             
         ]]>
