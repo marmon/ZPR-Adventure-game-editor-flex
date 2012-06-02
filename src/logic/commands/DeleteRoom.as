@@ -45,6 +45,7 @@ package logic.commands
                         cmd.bigBlockView = blocks[row][col];
                         cmd.oldColor = room.color;
                         cmd.newColor = newColor;
+                        cmd.roomId = room.id;
                         changeBlockCmds.addItem(cmd);
                     }
                 }
@@ -60,6 +61,14 @@ package logic.commands
         {
             id = (resEvent.result as int);
             roomCreator.refreshRoomList();
+            
+            // add points to board and db
+            // set all blocks
+            for each (var cmd:ChangeBlockColor in changeBlockCmds) 
+            {
+                cmd.roomId = id;
+                cmd.rollback();
+            }
         }
         private function onDelRoom(resEvent:ResultEvent)
         {
@@ -87,13 +96,8 @@ package logic.commands
             
             // add room to db
             remoteObj.addRoom(roomCreator.levelId, room.name, room.color);
-            // add points to board and db
-            // set all blocks
-            for each (var cmd:ChangeBlockColor in changeBlockCmds) 
-            {
-                cmd.rollback();
-            }
             
+            // rest of the operation in the onAddRoom handler
         }
     }
 }
