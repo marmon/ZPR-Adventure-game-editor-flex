@@ -142,41 +142,11 @@ package view
                 }
             }
         }
-        // Doors will be added like this:
-        // If in horizontal mode then you point to the left side on the door and the right side is added also
-        // If in vertical mode then you point to the bottom and upper will be added also
+        
         protected function blockDoubleClicked(event:MouseEvent):void
         {
             dispatchEvent(event);
-            var selectedX:int;
-            var selectedY:int 
-            if(event.target is Loader)
-            {
-                selectedX = ((event.target as Loader).parent as BigBlockView).x;
-                selectedY = ((event.target as Loader).parent as BigBlockView).y;
-                
-            }
-            else
-            {
-                selectedX = (event.target as BigBlockView).x;
-                selectedY = (event.target as BigBlockView).y;
-            }
-            selectedX = (selectedX / blockLength);
-            selectedY = (selectedY / blockLength);
-            var col:uint = selectedX;
-            var row:uint = selectedY;
-            if(tool == Tools.DOOR_H)
-            {
-                if(col == bigBlockViews[0].length)
-                    return;
-                dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
-            }
-            if(tool == Tools.DOOR_V)
-            {
-                if(row == 0)
-                    return;
-                dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
-            }
+
         }
         
 		// Set color to block model and update view to reflect changes.
@@ -217,6 +187,21 @@ package view
             else if( tool == Tools.ERASE)
             {
                 // TODO handle erase here
+            }
+            // Doors will be added like this:
+            // If in horizontal mode then you point to the left side on the door and the right side is added also
+            // If in vertical mode then you point to the bottom and upper will be added also
+            else if(tool == Tools.DOOR_H)
+            {
+                if(col == bigBlockViews[0].length)
+                    return;
+                dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
+            }
+            else if(tool == Tools.DOOR_V)
+            {
+                if(row == 0)
+                    return;
+                dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
             }
 		}
 		
