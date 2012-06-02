@@ -188,7 +188,7 @@
 				room = (list.selectedItem as Room);
 				color = room.color;
 				
-				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color); 
+				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color, room.id); 
 				dispatchEvent(eventObject);
 				//var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
 				//dispatchEvent(operationEvent); change="list_changeHandler(event)"

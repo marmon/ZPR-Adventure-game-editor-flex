@@ -66,6 +66,7 @@
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
 			{
 				board.setCurrentColor(event.color);
+                board.setCurrentRoomId(event.roomId);
 			}
 	//		protected function roomCreator_roomUrlChangedHandler(event:ObjectUrlChanged):void
 	//		{

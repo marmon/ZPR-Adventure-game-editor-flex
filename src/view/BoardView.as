@@ -32,6 +32,7 @@ package view
         // true - mode where you add objects to room
         // false - mode where you create rooms and add doors
         public var isRoomModeOn:Boolean = false;
+        private var roomId:int;
         
         public function BoardView(x:uint, y:uint, boardViewModel:BoardViewModel, defaultBlockLength:uint = 20)
         {
@@ -171,6 +172,7 @@ package view
                 cmd.oldColor = bigBlockViews[row][col].getCurrentColor();
                 cmd.newColor = currentRoomColor;
                 cmd.bigBlockView = bigBlockViews[row][col];
+                cmd.roomId = roomId;
                 UndoRedo.getInstance().execute(cmd);
                 var eventObject:Event = new Event("roomChanged");
                 dispatchEvent(eventObject);
@@ -217,5 +219,10 @@ package view
             }
         }
 		
-	}
+        public function setCurrentRoomId(roomId:int):void
+        {
+            this.roomId = roomId;
+            
+        }
+    }
 }
