@@ -9,7 +9,12 @@
     
     <fx:Script>
         <![CDATA[
+            import events.AddDoorEvent;
+            
             import logic.Tools;
+            import logic.UndoRedo;
+            import logic.commands.AddDoorCmd;
+            import logic.commands.AddRoom;
             
             import model.BoardViewModel;
             
@@ -40,6 +45,7 @@
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
                 //BindingUtils.bindProperty(arrows, 'visible', boardView, 'isRoomModeOn'); // sadly its logic would be reversed to wanted
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
+                boardView.addEventListener("addDoorEvent", addDoorHandler);
                 var container:UIComponent = new GridUIComponent(boardView);
                 container.addChild(boardView);
                 boardView.addEventListener("roomChanged", roomChanged);
@@ -102,6 +108,7 @@
                 container.addChild(boardView);
                 vgroup.addElement( container );
                 boardView.addEventListener("roomChanged", roomChanged);
+                boardView.addEventListener("addDoorEvent", addDoorHandler);
                 boardView.setCurrentRoomColor(currentColor);
                 
                 updateMinimap();
@@ -150,6 +157,22 @@
             {
                 boardView.setCurrentRoomId(roomId);
                 
+            }
+            
+            protected function addDoorHandler(event:Event):void
+            {
+                // Handling event here in case they would be more information needed its easy to dispatch it higher
+                var evt:AddDoorEvent = (event as AddDoorEvent);
+                if(evt.isHorizontal)
+                {
+                    var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col + 1, evt.row);
+                    UndoRedo.getInstance().execute(cmd);
+                } 
+                else 
+                {
+                    var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col, evt.row - 1);
+                    UndoRedo.getInstance().execute(cmd);
+                }
             }
             
         ]]>
