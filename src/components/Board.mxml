@@ -91,7 +91,7 @@
                 vgroup.addElement( container );
             } 
             
-            private function updateViews():void
+            public function updateViews():void
             {
                 vgroup.removeAllElements();
                 boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
@@ -104,7 +104,7 @@
                 
                 updateMinimap();
             }
-            private function updateMinimap():void
+            public function updateMinimap():void
             {
                 minimapBorder.removeAllElements();
                 var size:uint = boardViewModel.board.length > boardViewModel.board[0].length ? boardViewModel.board.length : boardViewModel.board[0].length;

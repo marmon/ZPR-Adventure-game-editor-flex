@@ -61,7 +61,7 @@
 			public var rooms:ArrayCollection = new ArrayCollection();
 			protected var objects:ArrayCollection = new ArrayCollection();
 			private var remoteObj : RemoteObject = null;
-			private var levelId:int;
+			public var levelId:int;
 			public function initApp(levelId:int):void
 			{
 				this.levelId = levelId;
