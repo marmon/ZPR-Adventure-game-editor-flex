@@ -62,6 +62,11 @@
                 boardView.setCurrentRoomColor(currentColor);
             }
             
+            public function getBoardViewModel():BoardViewModel
+            {
+                return boardViewModel;
+            }
+            
              protected function boardDoubleClick(event:MouseEvent):void
             {
                //dispatchEvent(event);
