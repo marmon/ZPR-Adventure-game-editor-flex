@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="444" creationComplete="initApp();">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="444">
 	
 	<!-- Properties of the parent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	
@@ -33,6 +33,9 @@
 			import events.OperationTypeChanged;
 			import events.RoomColorChanged;
 			
+			import logic.UndoRedo;
+			import logic.commands.AddRoom;
+			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -41,6 +44,8 @@
 			import mx.rpc.remoting.mxml.RemoteObject;
 			
 			import spark.events.IndexChangeEvent;
+			
+			import utils.stack.Stack;
 			
 			import valueObject.GameObject;
 			import valueObject.Room;
@@ -53,17 +58,58 @@
 			protected var rooms:ArrayCollection = new ArrayCollection();
 			protected var objects:ArrayCollection = new ArrayCollection();
 			private var remoteObj : RemoteObject = null;
-			public function initApp():void
+			private var levelId:int;
+			public function initApp(levelId:int):void
 			{
+				this.levelId = levelId;
 				importObjects();
 				remoteObj = new RemoteObject();
 				remoteObj.endpoint = Config.getInstance().getEndpoint();
 				remoteObj.destination = Config.getInstance().getDestination();
-				remoteObj.addBackpack.addEventListener("result", onAddRoom);
+				remoteObj.readRooms.addEventListener("result", onReadRooms);
+				remoteObj.addRooms.addEventListener("result", onAddRoom);
+				refreshRoomList();
 			}
-			private function onAddRoom(re:ResultEvent) : void {
+			private function onReadRooms(re:ResultEvent) : void {
 //				dispatchEvent(new Event(Event.CHANGE));
 //				PopUpManager.removePopUp(this);
+				/* status_txt.text = "fault: ";
+				status_txt.text += fault.message;
+				
+				for( var d : String in fault.fault )
+				{
+				status_txt.text += fault.fault[d] + "\n";
+				}
+				(answer.capacity as Number)
+				*/
+				var roomsArray:Array = re.result as Array;
+				rooms = new ArrayCollection();
+				for(var  room:String in roomsArray)
+				{
+					var newRoom:Room = new Room();
+					newRoom.name = (roomsArray[room].name) as String;
+					newRoom.color = (roomsArray[room].color) as uint;
+					newRoom.id = (roomsArray[room].id) as int;
+					rooms.addItem(newRoom);
+				}
+				/*
+				var answer : Object = re.result;
+				
+				selectedBackpackName.text = answer.name as String;
+				selectedBackpackSize.text = (answer.capacity as Number).toString();
+				
+				var itemsArray : Array = answer.items as Array;
+				
+				itemsCollection_.source = itemsArray;
+				*/
+				//var answer : Object = re.result;
+				//var itemsArray : Array = answer.items as Array;
+				//rooms.source = re.result as Array;;
+				
+			}
+			private function onAddRoom(re:ResultEvent)
+			{
+				
 			}
 			private function importObjects():void
 			{
@@ -84,9 +130,19 @@
 //				}
 //				var size_backpack : Number = parseFloat(backpackSize.text);
 //				remoteObj.addBackpack(backpackName.text, size_backpack);
+		//		var cmd:AddRoom = new AddRoom();
+			//	cmd.name = 
+			}
+			public function refreshRoomList():void
+			{
+				remoteObj.readRooms(levelId);
+				
 			}
 			protected function submitButton_clickHandler(event:MouseEvent):void
 			{
+				/*
+				
+				*/
 				var r:Room = new Room();
 				r.name = roomName.text;
 				r.color = roomColor.selectedColor;
@@ -103,11 +159,18 @@
 						return;
 					}
 				}
-				remoteObj.addRoom(roomName.text, roomColor.selectedColor);
-				rooms.addItem(r);
+				var cmd:AddRoom = new AddRoom();
+				cmd.name = roomName.text;
+				cmd.color = roomColor.selectedColor;
+				cmd.levelId = levelId;
+				cmd.roomCreator = this;
+				UndoRedo.getInstance().execute(cmd);
+				//rooms.addItem(r);
+				
 			}
 			protected function objectList_changeHandles(event:IndexChangeEvent): void
 			{
+
 				list.selectedIndex = -1;
 				var eventObject:ObjectUrlChanged = new ObjectUrlChanged("objectUrlChanged", (objectsList.selectedItem as GameObject).url);
 				dispatchEvent(eventObject);
@@ -124,7 +187,7 @@
 				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color); 
 				dispatchEvent(eventObject);
 				//var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
-				//dispatchEvent(operationEvent);
+				//dispatchEvent(operationEvent); change="list_changeHandler(event)"
 			}
 			
 		]]>
@@ -134,7 +197,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:Label text="Rooms"/>
-	<s:List id="list" width="100%" change="list_changeHandler(event)" dataProvider="{rooms}" labelField="name">
+	<s:List id="list" width="100%"  dataProvider="{rooms}" change="list_changeHandler(event)" labelField="name">
 	</s:List>
 	<s:Group width="100%" height="194">
 		<s:layout>

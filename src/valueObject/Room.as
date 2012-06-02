@@ -7,6 +7,8 @@ package valueObject
 		public var name:String;
 		[Bindable]
 		public var color:uint;
+		[Bindable]
+		public var id:int;
 		public var x1:Number;
 		public var y1:Number;
 		public var x2:Number;
