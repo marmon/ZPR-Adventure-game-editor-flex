@@ -56,7 +56,7 @@
 			[Bindable]
 			public var color:uint;
 			[Bindable]
-			protected var rooms:ArrayCollection = new ArrayCollection();
+			public var rooms:ArrayCollection = new ArrayCollection();
 			protected var objects:ArrayCollection = new ArrayCollection();
 			private var remoteObj : RemoteObject = null;
 			private var levelId:int;
