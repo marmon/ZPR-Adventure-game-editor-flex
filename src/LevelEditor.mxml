@@ -4,7 +4,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:components="components.*"
 			   width="1019" height="988" minWidth="955" minHeight="600"
-			   applicationComplete="init()">
+			  >
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
@@ -33,9 +33,11 @@
 			private var backpackArray_ : Array = null;
 			//private var boardView:BoardView;
 			private var remoteObj:RemoteObject = null;
-			private function init():void
+			private var boardView:BoardView;
+			private var selectedLevel:int;
+			public function init(selectedLevel:int):void
 			{
-				
+				this.selectedLevel = selectedLevel;
 			//	boardView = new BoardView(0,0,new BoardViewModel()); // BoardViewModel constructor has reasonable default
 			//	stage.addChild(boardView);
             //    boardView.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);

@@ -1,109 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-               xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:mx="library://ns.adobe.com/flex/mx"
-               minWidth="955" minHeight="600" currentState="State1"
-               creationComplete="init(event)">
-        
-    
-    <fx:Script>
-        <![CDATA[
-            import mx.collections.ArrayCollection;
-            import mx.controls.Alert;
-            import mx.events.FlexEvent;
-            import mx.rpc.events.FaultEvent;
-            import mx.rpc.events.ResultEvent;
-            
-            import valueObject.LevelName;
-            
-            [Bindable]
-            private var levels:ArrayCollection;
-            
-            protected function levelNamesService_resultHandler(event:ResultEvent):void
-            {
-                var array:ArrayCollection = (event.result as ArrayCollection);
-                for each (var i:String in array) 
-                {
-                    var levelName:LevelName = new LevelName();
-                    levelName.name = i;
-                    levels.addItem(levelName);
-                }
-            }
-            
-            protected function levelNamesService_faultHandler(event:FaultEvent):void
-            {
-                Alert.show(event.fault.faultString,"Fault Information");
-            }
-            
-            protected function createBtn_clickHandler(event:MouseEvent):void
-            {
-               currentState = 'newLevel';
-            }
-            
-            protected function init(event:FlexEvent):void
-            {
-                levelNamesService.levelNames(); // this requires running server obviously, still it might not work.
-            }
-            
-            protected function editBtn_clickHandler(event:MouseEvent):void
-            {
-               getLevelService.getLevel((levelsList.selectedItem as LevelName).name);
-                
-            }
-            
-        ]]>
-    </fx:Script> 
-    <s:states>
-        <s:State name="State1"/>
-        <s:State name="newLevel"/>
-    </s:states>
-    
-    <s:transitions>
-        <s:Transition fromState="*" toState="newLevel">
-            <s:Parallel target="{form}">
-                <s:Move/>
-                <s:Fade/>
-            </s:Parallel>
-        </s:Transition>
-    </s:transitions>
-        
-    <fx:Declarations>
-        <s:RemoteObject id="levelNamesService"
-                        endpoint="http://127.0.0.1:8000/gateway/"
-                        result="levelNamesService_resultHandler(event)"
-                        fault="levelNamesService_faultHandler(event)"
-                        destination="myservice"/>
-        
-        <s:RemoteObject id="getLevelService"
-                        endpoint="http://127.0.0.1:8000/gateway/"
-                        result="levelNamesService_resultHandler(event)"
-                        fault="levelNamesService_faultHandler(event)"
-                        destination="myservice"/>
-        
-           
-    </fx:Declarations>
-    
-    <s:Label x="10" y="10" fontSize="36" text="ZPR Adventure Game Editor"/>
-    <s:Label x="46" y="52" text="Marek Lewandowski"/>
-    <s:Label x="46" y="72" text="Marcin Wlazły"/>
-    <s:Label x="46" y="92" text="Michał Bemowski"/>
-    <s:List id="levelsList" x="515" y="121" width="208" height="267" dataProvider="{levels}"
-            labelField="name"/>
-    <s:Label x="515" y="101" text="Available levels:"/>
-    <s:Button id="editBtn" x="532" y="396" label="Edit" enabled="{levelsList.selectedItem.name}"
-              click.State1="editBtn_clickHandler(event)"/>
-    <s:Button id="createBtn" x="626" y="396" label="Create new"
-              click="createBtn_clickHandler(event)"/>
-    
-    <s:Form id="form" includeIn="newLevel" x="153" y="1000" y.newLevel="250" height="171">
-        <s:FormHeading label="Create new level"/>
-        <s:FormItem label="Level name:" required="true">
-            <s:TextInput id="levelName"/>
-        </s:FormItem>
-        <s:FormItem>
-            <s:Button id="submitButton" enabled="{levelName.text}" 
-                      label="Submit"/>
-        </s:FormItem>
-    </s:Form>
-    
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955" minHeight="600" currentState="State1"
+			   applicationComplete="init(event)" xmlns:local="*">
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import config.Config;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.mxml.RemoteObject;
+			import mx.utils.URLUtil;
+			
+			import valueObject.LevelName;
+			[Bindable]
+			private var levelsArray : Array = null;
+			[Bindable]
+			private var levels:Array = null;
+			private var selectedLevelId = null;
+			private var remoteObj : RemoteObject = null;
+			
+			protected function onReadLevels(event:ResultEvent):void
+			{
+				levels = event.result as Array;
+				setSelectedLevel(-1);
+				/*
+				var array:ArrayCollection = (event.result as ArrayCollection);
+				
+				for each (var i:String in array) 
+				{
+				var levelName:LevelName = new LevelName();
+				levelName.name = i;
+				levels.addItem(levelName);
+				}*/
+			}
+			protected function onAddLevel(event:ResultEvent):void
+			{
+				remoteObj.readLevels();
+				currentState = 'State1';
+				levelName.text = "";
+			}
+			protected function onFault(event:FaultEvent):void
+			{
+				Alert.show(event.fault.faultString,"Fault Information");
+			}
+			
+			protected function createBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = 'newLevel';
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				var conf : Config = Config.getInstance();
+				
+				var swf_url :String = FlexGlobals.topLevelApplication.loaderInfo.url;
+				if (URLUtil.isHttpURL(swf_url) ) {
+					conf.setURL( URLUtil.getProtocol(swf_url), URLUtil.getServerNameWithPort(swf_url) );
+				}
+				
+				remoteObj = new RemoteObject();
+				remoteObj.endpoint = conf.getEndpoint();
+				remoteObj.destination = conf.getDestination();
+				remoteObj.readLevels.addEventListener("result", onReadLevels);
+				remoteObj.addLevel.addEventListener("result", onAddLevel);
+				remoteObj.addEventListener("fault", onFault);
+				//remoteObj.echo.addEventListener("result",onResultEcho);
+				remoteObj.readLevels(); // this requires running server obviously, still it might not work.
+			}
+			private function setSelectedLevel( id : int ) : void
+			{
+				selectedLevelId = id;
+				if(selectedLevelId > 0)
+				{
+					editBtn.enabled = true;
+				}
+				else
+				{
+					editBtn.enabled = false;
+				}
+			}
+			protected function editBtn_clickHandler(event:MouseEvent):void
+			{
+				//getLevelService.getLevel((levelsList.selectedItem as LevelName).name);
+				// var levelEditor:LevelEditor = new LevelEditor();
+				//levelEditor.init(selectedLevelId);
+				
+				levelEditor.init(selectedLevelId);
+				currentState = 'levelEditor';
+			}
+			
+			protected function addLevel(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				remoteObj.addLevel(levelName.text);
+			}
+			private function levelsListChange() : void
+			{
+				setSelectedLevel(levels[levelsList.selectedIndex].id);
+			}
+		]]>
+	</fx:Script> 
+	<s:states>
+		<s:State name="State1"/>
+		<s:State name="newLevel"/>
+		<s:State name="levelEditor"/>
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition fromState="*" toState="newLevel">
+			<s:Parallel target="{form}">
+				<s:Move/>
+				<s:Fade/>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState ="*" toState="levelEditor">
+			<s:Parallel target="{levelEditor}">
+				<s:Move/>
+				<s:Fade/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	
+	<fx:Declarations>
+		
+		
+		
+	</fx:Declarations>
+	
+	<s:Label x="10" y="10" fontSize="36" text="ZPR Adventure Game Editor"/>
+	<s:Label x="46" y="52" text="Marek Lewandowski"/>
+	<s:Label x="46" y="72" text="Marcin Wlazły"/>
+	<s:Label x="46" y="92" text="Michał Bemowski"/>
+	<mx:List id="levelsList" x="515" y="121" width="208" height="267" dataProvider="{levels}"
+			 labelField="name" change="levelsListChange()"/>
+	<s:Label x="515" y="101" text="Available levels:"/>
+	<s:Button id="editBtn" x="532" y="396" label="Edit" enabled="false"
+			  click.State1="editBtn_clickHandler(event)"/>
+	<s:Button id="createBtn" x="626" y="396" label="Create new"
+			  click="createBtn_clickHandler(event)"/>
+	
+	<s:Form id="form" includeIn="newLevel" x="153" y="1000" y.newLevel="250" height="171">
+		<s:FormHeading label="Create new level"/>
+		<s:FormItem label="Level name:" required="true">
+			<s:TextInput id="levelName"/>
+		</s:FormItem>
+		<s:FormItem>
+			<s:Button id="submitButton" label="Submit" click="addLevel(event)"
+					  enabled="{levelName.text}"/>
+		</s:FormItem>
+	</s:Form>
+	<local:LevelEditor id="levelEditor"/>
 </s:Application>
