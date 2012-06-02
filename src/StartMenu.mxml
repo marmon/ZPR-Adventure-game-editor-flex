@@ -2,6 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
+               width="1019" height="988"
 			   minWidth="955" minHeight="600" currentState="State1"
 			   applicationComplete="init(event)" xmlns:local="*">
 	
@@ -93,7 +94,7 @@
 				// var levelEditor:LevelEditor = new LevelEditor();
 				//levelEditor.init(selectedLevelId);
 				
-				levelEditor.init(selectedLevelId);
+ 				levelEditor.init(selectedLevelId); 
 				currentState = 'levelEditor';
 			}
 			
@@ -135,16 +136,16 @@
 		
 	</fx:Declarations>
 	
-	<s:Label x="10" y="10" fontSize="36" text="ZPR Adventure Game Editor"/>
-	<s:Label x="46" y="52" text="Marek Lewandowski"/>
-	<s:Label x="46" y="72" text="Marcin Wlazły"/>
-	<s:Label x="46" y="92" text="Michał Bemowski"/>
-	<mx:List id="levelsList" x="515" y="121" width="208" height="267" dataProvider="{levels}"
+	<s:Label x="10" y="10" fontSize="36" text="ZPR Adventure Game Editor" visible.levelEditor="false"/>
+	<s:Label x="46" y="52" text="Marek Lewandowski" visible.levelEditor="false"/>
+	<s:Label x="46" y="72" text="Marcin Wlazły" visible.levelEditor="false"/>
+	<s:Label x="46" y="92" text="Michał Bemowski" visible.levelEditor="false"/>
+	<mx:List id="levelsList" x="515" y="121" width="208" height="267" dataProvider="{levels}" visible.levelEditor="false"
 			 labelField="name" change="levelsListChange()"/>
 	<s:Label x="515" y="101" text="Available levels:"/>
-	<s:Button id="editBtn" x="532" y="396" label="Edit" enabled="false"
+	<s:Button id="editBtn" x="532" y="396" label="Edit" enabled="false" visible.levelEditor="false"
 			  click.State1="editBtn_clickHandler(event)"/>
-	<s:Button id="createBtn" x="626" y="396" label="Create new"
+	<s:Button id="createBtn" x="626" y="396" label="Create new" visible.levelEditor="false"
 			  click="createBtn_clickHandler(event)"/>
 	
 	<s:Form id="form" includeIn="newLevel" x="153" y="1000" y.newLevel="250" height="171">
@@ -157,5 +158,5 @@
 					  enabled="{levelName.text}"/>
 		</s:FormItem>
 	</s:Form>
-	<local:LevelEditor id="levelEditor"/>
+	<local:LevelEditor id="levelEditor" includeIn="levelEditor"/>
 </s:Application>
