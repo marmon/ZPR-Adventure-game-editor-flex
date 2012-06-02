@@ -199,11 +199,12 @@
                 dispatchEvent(new Event("deleteRoomEvt"));   
             }
             
+            // removes item from the list and returns its index
             public function removeRoomFromTheList(room:Room):int
             {
                 var index:int = 0;
                 for(var i:int = 0 ; i < rooms.length ; ++i)
-                    if((rooms[i] as Room).id = room.id)
+                    if((rooms[i] as Room).id == room.id)
                     {
                         index = i;
                         break;
@@ -211,7 +212,7 @@
                 rooms.removeItemAt(index);
                 return index;
             }
-            
+            // adds item to the list at the specified position
             public function addRoomToTheList(room:Room, index:int):void
             {
                 rooms.addItemAt(room, index);
