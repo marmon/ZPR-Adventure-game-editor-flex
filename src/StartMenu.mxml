@@ -93,9 +93,9 @@
 				//getLevelService.getLevel((levelsList.selectedItem as LevelName).name);
 				// var levelEditor:LevelEditor = new LevelEditor();
 				//levelEditor.init(selectedLevelId);
-				
+                currentState = 'levelEditor';
  				levelEditor.init(selectedLevelId); 
-				currentState = 'levelEditor';
+				
 			}
 			
 			protected function addLevel(event:MouseEvent):void
