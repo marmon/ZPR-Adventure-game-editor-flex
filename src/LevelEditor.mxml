@@ -88,6 +88,12 @@
                 
             }
 
+            protected function roomCreator_deleteRoomEvtHandler(event:Event):void
+            {
+                // TODO Auto-generated method stub
+                
+            }
+            
         ]]>
 	</fx:Script>
 	
@@ -98,7 +104,7 @@
 	</fx:Declarations>
 
 	<!--<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" objectUrlChanged="roomCreator_roomUrlChangedHandler(event)"/>-->
-    <components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)"/>
+    <components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" deleteRoomEvt="roomCreator_deleteRoomEvtHandler(event)"/>
 	<!--<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>-->
 	<s:TextArea id="textArea" x="10" y="547" width="378" height="220" text="{toolbar.tool}"/>
     <s:Button x="32" y="504" label="Undo" click="undo(event)"/>
