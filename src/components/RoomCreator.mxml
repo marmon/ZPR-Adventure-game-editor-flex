@@ -211,6 +211,7 @@
 			<mx:ColorPicker id="roomColor"/>
 
 			<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)" enabled="{roomName.text}"/>
+        <s:Button id="deleteRoom" label="Delete" color="#FB0808" fontWeight="bold" enabled="{list.selectedItem}"/>
 	</s:Group>
 	<s:Label text="Objects"/>
 	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name">
