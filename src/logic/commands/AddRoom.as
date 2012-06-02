@@ -31,9 +31,9 @@ package logic.commands
 		{
 			remoteObj.delRoom(id);
 		}
-		private function onAddRoom(resEvent:ResultEvent)
+		private function onAddRoom(resEvent:ResultEvent):void
 		{
-			id = (resEvent as int);
+			id = (resEvent.result as int);
 			roomCreator.refreshRoomList();
 		}
 		private function onDelRoom(resEvent:ResultEvent)
