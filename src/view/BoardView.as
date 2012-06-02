@@ -196,12 +196,26 @@ package view
                 if(col == bigBlockViews[0].length)
                     return;
                 dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
+                /*
+                    //for small block
+                //door1
+                bigBlockViews[row][col].blocksViewModel[5] as BlockViewModel
+                //door2
+                bigBlockViews[row][col+1].blocksViewModel[3] as BlockViewModel
+                */
             }
             else if(tool == Tools.DOOR_V)
             {
                 if(row == 0)
                     return;
                 dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
+                /*
+                    for small block
+                //door1
+                bigBlockViews[row][col].blocksViewModel[1] as BlockViewModel
+                //door2
+                bigBlockViews[row - 1][col].blocksViewModel[7] as BlockViewModel
+                */
             }
 		}
 		
