@@ -54,7 +54,7 @@
 			public var room:Room;
 			[Bindable]
 			public var color:uint;
-			
+			[Bindable]
 			protected var rooms:ArrayCollection = new ArrayCollection();
 			protected var objects:ArrayCollection = new ArrayCollection();
 			private var remoteObj : RemoteObject = null;
@@ -84,12 +84,13 @@
 				*/
 				var roomsArray:Array = re.result as Array;
 				rooms = new ArrayCollection();
-				for(var  room:String in roomsArray)
+				//for(var  room:String in roomsArray)
+                for(var i:int = 0 ; i < roomsArray.length ; ++i)
 				{
 					var newRoom:Room = new Room();
-					newRoom.name = (roomsArray[room].name) as String;
-					newRoom.color = (roomsArray[room].color) as uint;
-					newRoom.id = (roomsArray[room].id) as int;
+					newRoom.name = (roomsArray[i].name) as String;
+					newRoom.color = (roomsArray[i].color) as uint;
+					newRoom.id = (roomsArray[i].id) as int;
 					rooms.addItem(newRoom);
 				}
 				/*
