@@ -38,6 +38,7 @@
                 boardViewModel = new BoardViewModel();
                 boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
+                //BindingUtils.bindProperty(arrows, 'visible', boardView, 'isRoomModeOn'); // sadly its logic would be reversed to wanted
                 boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true); // If there was no "true" then there were duplicated DOUBLE_CLICK events catched
                 var container:UIComponent = new GridUIComponent(boardView);
                 container.addChild(boardView);
@@ -97,6 +98,7 @@
                 boardView = new BoardView(0,0, boardViewModel , defaultBlockLength);
                 BindingUtils.bindProperty(boardView, 'tool', this, 'tool');
                 var container:UIComponent = new GridUIComponent(boardView);
+                boardView.addEventListener(MouseEvent.DOUBLE_CLICK, boardDoubleClick, true);
                 container.addChild(boardView);
                 vgroup.addElement( container );
                 boardView.addEventListener("roomChanged", roomChanged);
@@ -163,7 +165,7 @@
         
     </s:BorderContainer>
   
-    <s:HGroup x="0" y="0" width="200" height="22" paddingLeft="4">
+    <s:HGroup id="arrows" x="0" y="0" width="200" height="22" paddingLeft="4">
         <s:Button id="left" x="0" click="leftButtonClicked(event)" icon="assets/left.png" verticalCenter="-193"/>
         <s:Button id="up" top="0" click="upButtonClicked(event)" horizontalCenter="155" icon="assets/up.png"/>
         <s:Button id="right" right="88" click="rightButtonClicked(event)" icon="assets/right.png"

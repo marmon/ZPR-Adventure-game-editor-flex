@@ -31,6 +31,7 @@ package view
         
         // true - mode where you add objects to room
         // false - mode where you create rooms and add doors
+        [Bindable]
         public var isRoomModeOn:Boolean = false;
         private var roomId:int;
         
