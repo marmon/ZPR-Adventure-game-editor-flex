@@ -62,7 +62,7 @@ package logic.commands
         {
             id = (resEvent.result as int);
             roomCreator.refreshRoomList();
-            
+            room.id = id;
             // add points to board and db
             // set all blocks
             for each (var cmd:ChangeBlockColor in changeBlockCmds) 
@@ -87,7 +87,7 @@ package logic.commands
                cmd.execute();
             }
             // then remove room
-            remoteObj.delRoom(id);
+            remoteObj.delRoom(room.id);
         }
         
         public function rollback():void
