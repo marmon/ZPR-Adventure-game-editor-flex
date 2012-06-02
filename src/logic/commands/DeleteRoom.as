@@ -70,6 +70,7 @@ package logic.commands
                 cmd.roomId = id;
                 cmd.rollback();
             }
+            board.updateMinimap();
         }
         private function onDelRoom(resEvent:ResultEvent)
         {
@@ -88,6 +89,7 @@ package logic.commands
             }
             // then remove room
             remoteObj.delRoom(room.id);
+            board.updateMinimap();
         }
         
         public function rollback():void
