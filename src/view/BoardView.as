@@ -173,6 +173,7 @@ package view
                 cmd.newColor = currentRoomColor;
                 cmd.bigBlockView = bigBlockViews[row][col];
                 cmd.roomId = roomId;
+                cmd.isAddition = true;
                 UndoRedo.getInstance().execute(cmd);
                 var eventObject:Event = new Event("roomChanged");
                 dispatchEvent(eventObject);

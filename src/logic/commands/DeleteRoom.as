@@ -46,6 +46,7 @@ package logic.commands
                         cmd.oldColor = room.color;
                         cmd.newColor = newColor;
                         cmd.roomId = room.id;
+                        cmd.isAddition = false;
                         changeBlockCmds.addItem(cmd);
                     }
                 }

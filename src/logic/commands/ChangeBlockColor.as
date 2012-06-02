@@ -2,6 +2,8 @@ package logic.commands
 {
     import config.Config;
     
+    import model.BlockViewModel;
+    
     import mx.rpc.events.ResultEvent;
     import mx.rpc.remoting.RemoteObject;
     
@@ -23,6 +25,7 @@ package logic.commands
         public var oldColor:uint;
         public var newColor:uint;
         public var roomId:int;
+        public var isAddition:Boolean = true;
         
         private var remoteObj:RemoteObject;
         
@@ -44,18 +47,49 @@ package logic.commands
         {
             //roomCreator.refreshRoomList();
         }
-        
+     // addRoomPoint( roomId, roomX, roomY ):   
+     // delRoomPoint( roomX, roomY ):
         public function execute():void
         {
             // change visual appeal
             bigBlockView.changeColor(newColor);
             bigBlockView.draw();
+            // add points to db
+            if(isAddition)
+            {
+                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+                {
+                    remoteObj.addRoomPoint(roomId, block.col, block.row );
+                }
+            }
+            else
+            {
+                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+                {
+                    remoteObj.delRoomPoint(block.col, block.row );
+                }
+            }
         }
         
         public function rollback():void
         {
             bigBlockView.changeColor(oldColor);
             bigBlockView.draw();
+            if(isAddition)
+            {
+                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+                {
+                    remoteObj.delRoomPoint(block.col, block.row );
+                }
+            }
+            else
+            {
+                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+                {
+                    remoteObj.addRoomPoint(roomId, block.col, block.row );
+                }
+            }
+            
         }
     }
 }
