@@ -42,6 +42,19 @@ package view
             }
             draw();
         }
+		public function drawDoor(x:int, y:int, isDoor:Boolean):void
+		{
+			var tmpX:int = x % 3;
+			var tmpY:int = y % 3;
+			blocksViewModel[tmpY*3 + tmpX].isDoor = isDoor;
+		
+		}
+		public function  isEmpytSpace(x:int, y:int):Boolean
+		{
+			var tmpX:int = x % 3;
+			var tmpY:int = y % 3;
+			return !(blocksViewModel[tmpY*3 + tmpX].isDoor);
+		}
         public function drawRoomPoint(color:uint, roomId:int)
 		{
 			this.roomId = roomId;

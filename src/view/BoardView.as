@@ -225,7 +225,9 @@ package view
 				var y1:uint = 3*row + 1;
 				var x2:uint = 3*(col + 1);
 				var y2:uint = 3*row + 1;
-				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2);
+				if((!bigBlockViews[row][col].isEmpytSpace) || (!bigBlockViews[row][col+1].isEmpytSpace))
+					return;
+				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2, bigBlockViews[row][col], bigBlockViews[row][col + 1]);
 				UndoRedo.getInstance().execute(cmdAddDoor);
                // if(col == bigBlockViews[0].length)
                 //    return;
@@ -257,8 +259,11 @@ package view
 				var y1:uint = 3*row + 2;
 				var x2:uint = 3*col + 1;
 				var y2:uint = (row + 1)*3;
-				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2);
+				if((!bigBlockViews[row][col].isEmpytSpace) || (!bigBlockViews[row+1][col].isEmpytSpace))
+					return;
+				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2, bigBlockViews[row][col], bigBlockViews[row + 1][col]);
 				UndoRedo.getInstance().execute(cmdAddDoor);
+				
                 /*
                     for small block
                 //door1
@@ -268,9 +273,13 @@ package view
                 */
             }
 		}
-		public function colorRoomPoints(roomId:int, color:uint, col:int, row:int)
+		public function colorRoomPoints(roomId:int, color:uint, col:int, row:int):void
 		{
 			(bigBlockViews[row][col] as BigBlockView).drawRoomPoint(color, roomId);
+		}
+		public function drawDoor(x:int, y:int):void
+		{
+			(bigBlockViews[(y - (y%3))/3][(x - (x%3))/3] as BigBlockView).drawDoor(x, y, true);
 		}
 		public function setCurrentRoomColor(color:uint):void
         {

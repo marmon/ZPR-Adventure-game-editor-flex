@@ -74,7 +74,18 @@
 				remoteObj.addRooms.addEventListener("result", onAddRoom);
 				remoteObj.readPoints.addEventListener("result", onReadPoints);
 				remoteObj.isValid.addEventListener("result", onIsVaild);
+				remoteObj.readLevelDoors.addEventListener("result", onReadLevelDoors);
 				refreshRoomList();
+			}
+			private function onReadLevelDoors(re:ResultEvent):void
+			{
+				var doorsArray:Array = re.result as Array;
+				for(var i:int = 0 ; i < doorsArray.length ; ++i)
+				{
+					var x:int = ((doorsArray[i].x) as int);
+					var y:int = ((doorsArray[i].y) as int);
+					board.drawDoor(x, y);
+				}
 			}
 			private function onIsVaild(re:ResultEvent) : void
 			{
@@ -183,7 +194,7 @@
 			public function refreshRoomList():void
 			{
 				remoteObj.readRooms(levelId);
-				
+				remoteObj.readLevelDoors();
 			}
 			public function refreshRoomPoints(roomId:int):void
 			{

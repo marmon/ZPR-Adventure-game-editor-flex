@@ -65,6 +65,12 @@ package view
             graphics.lineStyle(1, 0xB3B3B3);
             graphics.beginFill(this.blockViewModel.roomColor); 
             graphics.drawRect(0,0,blockLenght, blockLenght);
+			if(this.blockViewModel.isDoor)
+			{
+				graphics.beginFill((this.blockViewModel.roomColor) + 100); 
+				graphics.drawEllipse(0,0,blockLenght, blockLenght);
+				graphics.endFill();
+			}
             graphics.endFill();
         }
 		public function setUrl(url:String):void

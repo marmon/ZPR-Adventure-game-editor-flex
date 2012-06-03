@@ -72,6 +72,10 @@
 			{
 				boardView.colorRoomPoints(roomId, color, col, row);
 			}
+			public function drawDoor(x:int, y:int):void
+			{
+				boardView.drawDoor(x, y);
+			}
             public function getBoardViewModel():BoardViewModel
             {
                 return boardViewModel;
