@@ -45,14 +45,19 @@
                 tools.addItem(erase);
                 tools.addItem(doorV);
                 tools.addItem(doorH);
-                
+                tools.addItem(removeDoorH);
+				tools.addItem(removeDoorV);
+				tools.addItem(addObject);
+				tools.addItem(delObject);
                 map[select] = Tools.SELECTION;
                 map[paint] = Tools.PAINT;
                 map[erase] = Tools.ERASE;
                 map[doorV] = Tools.DOOR_V;
                 map[doorH] = Tools.DOOR_H;
 				map[removeDoorH] = Tools.REMOVE_DOOR_H;
-				map.re
+				map[removeDoorV] = Tools.REMOVE_DOOR_V;
+				map[addObject] = Tools.ADD_OBJECT;
+				map[delObject] = Tools.DEL_OBJECT;
             }
             
             private function toggleOffExcept(tool:ToggleButton):void
@@ -78,5 +83,7 @@
     <s:ToggleButton id="doorH" label="door horizontal" click="changeTool(event)"/>
 	<s:ToggleButton id="removeDoorH" label="delete doorH" click="changeTool(event)"/>
 	<s:ToggleButton id="removeDoorV" label="delete doorV" click="changeTool(event)"/>
+	<s:ToggleButton id="addObject" label="add object" click="changeTool(event)"/>
+	<s:ToggleButton id="delObject" label="del object" click="changeTool(event)"/>
     
 </s:Group>

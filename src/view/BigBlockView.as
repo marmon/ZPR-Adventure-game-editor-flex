@@ -49,6 +49,13 @@ package view
 			blocksViewModel[tmpY*3 + tmpX].isDoor = isDoor;
 		
 		}
+		public function drawObject(x:int, y:int, isObject:Boolean):void
+		{
+			var tmpX:int = x % 3;
+			var tmpY:int = y % 3;
+			blocksViewModel[tmpY*3 + tmpX].isObject = isObject;
+			draw();
+		}
 		public function  isEmpytSpace(x:int, y:int):Boolean
 		{
 			var tmpX:int = x % 3;

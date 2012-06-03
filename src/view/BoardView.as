@@ -15,6 +15,7 @@ package view
 	import logic.Tools;
 	import logic.UndoRedo;
 	import logic.commands.AddDoorCmd;
+	import logic.commands.AddObjectCmd;
 	import logic.commands.ChangeBlockColor;
 	import logic.commands.ChangeRoomMode;
 	import logic.commands.SetItem;
@@ -93,6 +94,17 @@ package view
         public function blockClicked(event:MouseEvent):void
         {
             // TODO Auto-generated method stub
+			if(tool == Tools.ADD_OBJECT)
+			{
+				var selectedX:int;
+				var selectedY:int;
+				selectedX = (event.target as BlockView).x;
+				selectedY = (event.target as BlockView).y;
+				selectedX = (selectedX / blockLength);
+				selectedY = (selectedY / blockLength);
+				var cmd:AddObjectCmd = new AddObjectCmd(selectedX, selectedY, bigBlockViews[(selectedY - (selectedY % 3))/3][(selectedX - (selectedX % 3))/3]);
+				UndoRedo.getInstance().execute(cmd);
+			}
             
         }
         

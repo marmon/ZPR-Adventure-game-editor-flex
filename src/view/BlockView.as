@@ -71,6 +71,12 @@ package view
 				graphics.drawEllipse(0,0,blockLenght, blockLenght);
 				graphics.endFill();
 			}
+			if(this.blockViewModel.isObject)
+			{
+				graphics.beginFill((this.blockViewModel.roomColor) + 500); 
+				graphics.drawRect(2,2,blockLenght-4, blockLenght-4);
+				graphics.endFill();
+			}
             graphics.endFill();
         }
 		public function setUrl(url:String):void
