@@ -76,6 +76,10 @@
 			{
 				boardView.drawDoor(x, y);
 			}
+			public function drawItem(x:int, y:int):void
+			{
+				boardView.drawItem(x,y);
+			}
             public function getBoardViewModel():BoardViewModel
             {
                 return boardViewModel;

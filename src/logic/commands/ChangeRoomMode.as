@@ -17,15 +17,15 @@ package logic.commands
 		public function execute():void
 		{
 			//boardView.isRoomModeOn = this.isRoomModeOn;
-			doChangeMode(isRoomModeOn);
+			removeOldView(isRoomModeOn);
 		}
 		public function rollback():void
 		{
 			//boardView.isRoomModeOn = !(this.isRoomModeOn)
 			//execute();
-			doChangeMode(!isRoomModeOn);
+			removeOldView(!isRoomModeOn);
 		}
-		private function doChangeMode(value:Boolean)
+		private function removeOldView(value:Boolean)
 		{
 			boardView.isRoomModeOn = value;
 			if (value) // go to room mode
@@ -38,6 +38,36 @@ package logic.commands
 						boardView.removeChild(boardView.bigBlockViews[row][col]); 
 					}
 				}
+			}
+			else
+			{
+				// remove blocks
+				for(var row:int = 0 ; row < boardView.boardViewModel.board.length ; ++row)
+				{
+					for(var col:int = 0 ; col < boardView.boardViewModel.board[row].length ; ++col)
+					{
+						boardView.removeChild(boardView.blockViews[row][col]);
+					}
+				}
+			}
+			doChangeMode(value);
+		}
+		public function removeBlock()
+		{
+			for(var row:int = 0 ; row < boardView.boardViewModel.board.length ; ++row)
+			{
+				for(var col:int = 0 ; col < boardView.boardViewModel.board[row].length ; ++col)
+				{
+					boardView.removeChild(boardView.blockViews[row][col]);
+				}
+			}
+		}
+		public function doChangeMode(value:Boolean)
+		{
+	
+			if (value) // go to room mode
+			{
+				
 				// create Block view
 				boardView.blockViews = new Array(boardView.boardViewModel.board.length);
 				for(var row:int = 0 ; row < boardView.boardViewModel.board.length ; ++row)
@@ -58,14 +88,7 @@ package logic.commands
 			}
 			else // go back to big block mode
 			{
-				// remove blocks
-				for(var row:int = 0 ; row < boardView.boardViewModel.board.length ; ++row)
-				{
-					for(var col:int = 0 ; col < boardView.boardViewModel.board[row].length ; ++col)
-					{
-						boardView.removeChild(boardView.blockViews[row][col]);
-					}
-				}
+				
 				// add bigblocks
 				for(var row:int = 0 ; row < boardView.bigBlockViews.length ; ++row)
 				{

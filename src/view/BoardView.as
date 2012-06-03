@@ -102,7 +102,7 @@ package view
 				selectedY = (event.target as BlockView).y;
 				selectedX = (selectedX / blockLength);
 				selectedY = (selectedY / blockLength);
-				var cmd:AddObjectCmd = new AddObjectCmd(selectedX, selectedY, bigBlockViews[(selectedY - (selectedY % 3))/3][(selectedX - (selectedX % 3))/3]);
+				var cmd:AddObjectCmd = new AddObjectCmd(selectedX, selectedY, bigBlockViews[(selectedY - (selectedY % 3))/3][(selectedX - (selectedX % 3))/3], this);
 				UndoRedo.getInstance().execute(cmd);
 			}
             
@@ -292,6 +292,10 @@ package view
 		public function drawDoor(x:int, y:int):void
 		{
 			(bigBlockViews[(y - (y%3))/3][(x - (x%3))/3] as BigBlockView).drawDoor(x, y, true);
+		}
+		public function drawItem(x:int, y:int):void
+		{
+			(bigBlockViews[(y - (y%3))/3][(x - (x%3))/3] as BigBlockView).drawObject(x, y, true);
 		}
 		public function setCurrentRoomColor(color:uint):void
         {
