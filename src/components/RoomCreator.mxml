@@ -193,14 +193,9 @@
 				gObj2.url = "images/h.png";
 				objects.addItem(gObj2);
 			}
-			private function addClick() : void {
-//				if( backpackName.text.length == 0 ) {
-//					Alert.show('give the backpack name');
-//				}
-//				var size_backpack : Number = parseFloat(backpackSize.text);
-//				remoteObj.addBackpack(backpackName.text, size_backpack);
-		//		var cmd:AddRoom = new AddRoom();
-			//	cmd.name = 
+			private function addClick() : void 
+			{
+
 			}
 			public function refreshRoomList():void
 			{
@@ -246,19 +241,19 @@
 			{
 				remoteObj.isValid(levelId);
 			}
-			protected function objectList_changeHandles(event:IndexChangeEvent): void
-			{
-
-				list.selectedIndex = -1;
-				var eventObject:ObjectUrlChanged = new ObjectUrlChanged("objectUrlChanged", (objectsList.selectedItem as GameObject).url);
-				dispatchEvent(eventObject);
-				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 1);
-				dispatchEvent(operationEvent);
-				
-			}
+//			protected function objectList_changeHandles(event:IndexChangeEvent): void
+//			{
+//
+//				list.selectedIndex = -1;
+////				var eventObject:ObjectUrlChanged = new ObjectUrlChanged("objectUrlChanged", (objectsList.selectedItem as GameObject).url);
+////				dispatchEvent(eventObject);
+//				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 1);
+//				dispatchEvent(operationEvent);
+//				
+//			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
-				objectsList.selectedIndex = -1;
+//				objectsList.selectedIndex = -1;
 				room = (list.selectedItem as Room);
 				color = room.color;
 				
@@ -316,16 +311,7 @@
 		
 	</s:Group>
 	<s:Button id="checkValid" label="Check valid" click="checkValidClickHandler(event)"/>
-	<s:Label text="Objects"/>
-	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name" enabled="false">
-		
-	</s:List>
 	<s:Form width="100%" height="65">
-		<s:FormItem label="Room name:">
-		</s:FormItem>
-		<s:FormItem label="Color:">
-		</s:FormItem>
-		
 		<s:FormItem>
 		</s:FormItem>
 	</s:Form>

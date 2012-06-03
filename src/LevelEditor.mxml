@@ -58,7 +58,7 @@
 			
             protected function boardDoubleClicked(event:MouseEvent):void
             {
-                textArea.text += "\n board double clicked\n";
+//                textArea.text += "\n board double clicked\n";
                 // TODO: we could initilize change to room view here if it is gonna be done in other compontent
                 // if not, then this handler is rather useless.
             }
@@ -108,7 +108,6 @@
 	<!--<components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" objectUrlChanged="roomCreator_roomUrlChangedHandler(event)"/>-->
     <components:RoomCreator id="roomCreator" x="609" y="10" roomColorChanged="roomCreator_roomColorChangedHandler(event)" deleteRoomEvt="roomCreator_deleteRoomEvtHandler(event)"/>
 	<!--<s:Button x="396" y="742" label="Map to JSON" click="mapToJSON_handler(event)"/>-->
-	<s:TextArea id="textArea" x="10" y="547" width="378" height="220" text="{toolbar.tool}"/>
     <s:Button x="32" y="504" label="Undo" click="undo(event)"/>
     <s:Button x="140" y="504" label="Redo" click="redo(event)"/>
     <components:Toolbar id="toolbar" x="32" y="475">
