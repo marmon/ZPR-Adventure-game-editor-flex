@@ -73,7 +73,20 @@
 				remoteObj.readRooms.addEventListener("result", onReadRooms);
 				remoteObj.addRooms.addEventListener("result", onAddRoom);
 				remoteObj.readPoints.addEventListener("result", onReadPoints);
+				remoteObj.isValid.addEventListener("result", onIsVaild);
 				refreshRoomList();
+			}
+			private function onIsVaild(re:ResultEvent) : void
+			{
+				var isValidate:Boolean = re.result as Boolean;
+				if(isValidate)
+				{
+					Alert.show("OK. This level is valid.","Valid Information");
+				}
+				else
+				{
+					Alert.show("Error. This level is not valid.","Valid Information");
+				}
 			}
 			private function onReadPoints(re:ResultEvent) : void
 			{
@@ -206,6 +219,10 @@
 				//rooms.addItem(r);
 				
 			}
+			protected function checkValidClickHandler(event:MouseEvent):void
+			{
+				remoteObj.isValid(levelId);
+			}
 			protected function objectList_changeHandles(event:IndexChangeEvent): void
 			{
 
@@ -261,7 +278,7 @@
 	<s:Label text="Rooms"/>
 	<s:List id="list" width="100%"  dataProvider="{rooms}" change="list_changeHandler(event)" labelField="name">
 	</s:List>
-	<s:Group width="100%" height="194">
+	<s:Group width="100%" height="60">
 		<s:layout>
 			<s:HorizontalLayout/>
 
@@ -271,9 +288,11 @@
 			<s:Label text="Color:"/>
 			<mx:ColorPicker id="roomColor"/>
 
-			<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)" enabled="{roomName.text}"/>
+		<s:Button id="submitButton" label="Add room" click="submitButton_clickHandler(event)" enabled="{roomName.text}"/>
         <s:Button id="deleteRoom" label="Delete" color="#FB0808" fontWeight="bold" enabled="{list.selectedItem}" click="deleteRoom_clickHandler(event)"/>
+		
 	</s:Group>
+	<s:Button id="checkValid" label="Check valid" click="checkValidClickHandler(event)"/>
 	<s:Label text="Objects"/>
 	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name" enabled="false">
 		

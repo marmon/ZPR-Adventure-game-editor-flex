@@ -14,7 +14,9 @@ package view
 	
 	import logic.Tools;
 	import logic.UndoRedo;
+	import logic.commands.AddDoorCmd;
 	import logic.commands.ChangeBlockColor;
+	import logic.commands.ChangeRoomMode;
 	import logic.commands.SetItem;
 	
 	import model.BlockViewModel;
@@ -88,7 +90,7 @@ package view
         }
         
 
-        protected function blockClicked(event:MouseEvent):void
+        public function blockClicked(event:MouseEvent):void
         {
             // TODO Auto-generated method stub
             
@@ -96,8 +98,10 @@ package view
         
         public function setIsRoomModeOn(value:Boolean):void
         {
-            isRoomModeOn = value;
-            if (isRoomModeOn) // go to room mode
+  //          isRoomModeOn = value;
+			var cmd:ChangeRoomMode = new ChangeRoomMode(value, this);
+			UndoRedo.getInstance().execute(cmd);
+           /* if (isRoomModeOn) // go to room mode
             {
                 // remove BigBlocks 
                 for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
@@ -142,10 +146,10 @@ package view
                         this.addChild(bigBlockViews[row][col]); 
                     }
                 }
-            }
+            }*/
         }
         
-        protected function blockDoubleClicked(event:MouseEvent):void
+        public function blockDoubleClicked(event:MouseEvent):void
         {
             dispatchEvent(event);
 
@@ -209,10 +213,25 @@ package view
             // If in vertical mode then you point to the bottom and upper will be added also
             else if(tool == Tools.DOOR_H)
             {
-                if(col == bigBlockViews[0].length)
-                    return;
-                dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
-                /*
+				var row:int = selectedY;
+				var col:int = selectedX;
+				if(bigBlockViews[row][col].roomId == bigBlockViews[row][col + 1].roomId ||
+					bigBlockViews[row][col].roomId == -1 || bigBlockViews[row][col + 1].roomId == -1)
+				{
+					return;
+					
+				}
+				var x1:uint =3* col + 2;
+				var y1:uint = 3*row + 1;
+				var x2:uint = 3*(col + 1);
+				var y2:uint = 3*row + 1;
+				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2);
+				UndoRedo.getInstance().execute(cmdAddDoor);
+               // if(col == bigBlockViews[0].length)
+                //    return;
+                //dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
+               
+				/*
                     //for small block
                 //door1
                 bigBlockViews[row][col].blocksViewModel[5] as BlockViewModel
@@ -222,9 +241,24 @@ package view
             }
             else if(tool == Tools.DOOR_V)
             {
-                if(row == 0)
-                    return;
-                dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
+//                if(row == 0)
+//                    return;
+ //               dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
+				var row:int = selectedY;
+				var col:int = selectedX;
+				if(((bigBlockViews[row][col].roomId) == (bigBlockViews[row+1][col].roomId)) ||
+					(bigBlockViews[row][col].roomId == -1) || (bigBlockViews[row+1][col].roomId == -1))
+				{
+					return;
+					
+				}
+				//bigBlockViews[row][col].roomId
+				var x1:uint = 3*col + 1;
+				var y1:uint = 3*row + 2;
+				var x2:uint = 3*col + 1;
+				var y2:uint = (row + 1)*3;
+				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2);
+				UndoRedo.getInstance().execute(cmdAddDoor);
                 /*
                     for small block
                 //door1

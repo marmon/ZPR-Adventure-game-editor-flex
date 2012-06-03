@@ -168,13 +168,13 @@
                 var evt:AddDoorEvent = (event as AddDoorEvent);
                 if(evt.isHorizontal)
                 {
-                    var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col + 1, evt.row);
-                    UndoRedo.getInstance().execute(cmd);
+  //                  var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col + 1, evt.row);
+  //                  UndoRedo.getInstance().execute(cmd);
                 } 
                 else 
                 {
-                    var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col, evt.row - 1);
-                    UndoRedo.getInstance().execute(cmd);
+ //                   var cmd:AddDoorCmd = new AddDoorCmd(evt.col, evt.row, evt.col, evt.row - 1);
+ //                   UndoRedo.getInstance().execute(cmd);
                 }
             }
             

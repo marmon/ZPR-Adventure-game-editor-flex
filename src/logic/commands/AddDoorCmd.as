@@ -1,8 +1,9 @@
 package logic.commands
 {
-    import mx.rpc.remoting.mxml.RemoteObject;
     import config.Config;
+    
     import mx.rpc.events.ResultEvent;
+    import mx.rpc.remoting.mxml.RemoteObject;
 
     public class AddDoorCmd implements Command
     {
@@ -11,14 +12,13 @@ package logic.commands
         private var room2X:uint;
         private var room2Y:uint;
         private var remoteObj:RemoteObject;
-        
+        private var id:int;
         public function AddDoorCmd(room1X:uint, room1Y:uint, room2X:uint, room2Y:uint)
         {
-            this.room1X = room1X;
-            this.room1Y = room1Y;
-            this.room2X = room2X;
-            this.room2Y = room2Y;
-            
+         	this.room1X = room1X;
+			this.room1Y = room1Y;
+			this.room2X = room2X;
+			this.room2Y = room2Y;
             // some remote object
             remoteObj = new RemoteObject();
             remoteObj.endpoint = Config.getInstance().getEndpoint();
@@ -29,7 +29,7 @@ package logic.commands
         
         private function onAddDoor(resEvent:ResultEvent):void
         {
-           
+           id = resEvent.result as int;
         }
         private function onDelDoor(resEvent:ResultEvent):void
         {
@@ -39,10 +39,12 @@ package logic.commands
         
         public function execute():void
         {
+			remoteObj.addDoor(room1X, room1Y, room2X, room2Y);
         }
         
         public function rollback():void
         {
+			remoteObj.delDoor(id);
         }
     }
 }
