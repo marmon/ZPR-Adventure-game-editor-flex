@@ -10,6 +10,8 @@ package view
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import flashx.textLayout.tlf_internal;
+	
 	import logic.Tools;
 	import logic.UndoRedo;
 	import logic.commands.ChangeBlockColor;
@@ -188,6 +190,19 @@ package view
             else if( tool == Tools.ERASE)
             {
                 // TODO handle erase here
+				var cmd:ChangeBlockColor = new ChangeBlockColor();
+				var row:int = selectedY;
+				var col:int = selectedX;
+				cmd.oldColor = bigBlockViews[row][col].getCurrentColor();
+				cmd.oldRoomId =  bigBlockViews[row][col].roomId;
+				cmd.newColor = boardViewModel.defaultColorOfEmptyBlock;
+				cmd.bigBlockView = bigBlockViews[row][col];
+				cmd.roomId = -1;
+				cmd.isAddition = false;
+				UndoRedo.getInstance().execute(cmd);
+				var eventObject:Event = new Event("roomChanged");
+				dispatchEvent(eventObject);
+				return;
             }
             // Doors will be added like this:
             // If in horizontal mode then you point to the left side on the door and the right side is added also

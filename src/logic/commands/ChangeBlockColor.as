@@ -1,5 +1,7 @@
 package logic.commands
 {
+    import components.RoomCreator;
+    
     import config.Config;
     
     import model.BlockViewModel;
@@ -43,6 +45,7 @@ package logic.commands
         {
             //id = (resEvent.result as int);
            // roomCreator.refreshRoomList();
+			
         }
         private function onDelRoomPoint(resEvent:ResultEvent)
         {
@@ -72,10 +75,13 @@ package logic.commands
             }
             else
             {
-                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
-                {
-                    remoteObj.delRoomPoint(block.col, block.row );
-                }
+				if(oldRoomId != -1)
+				{
+	                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+	                {
+	                    remoteObj.delRoomPoint(block.col, block.row );
+	                }
+				}
             }
         }
         
@@ -99,10 +105,14 @@ package logic.commands
             }
             else
             {
-                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
-                {
-                    remoteObj.addRoomPoint(roomId, block.col, block.row );
-                }
+				if(oldRoomId != -1)
+				{
+					
+	                for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+	                {
+	                    remoteObj.addRoomPoint(oldRoomId, block.col, block.row );
+	                }
+				}
             }
             
         }
