@@ -68,7 +68,10 @@
                 currentColor = color;
                 boardView.setCurrentRoomColor(currentColor);
             }
-            
+            public function colorRoomPoints(roomId:int, color:uint, col:int, row:int):void
+			{
+				boardView.colorRoomPoints(roomId, color, col, row);
+			}
             public function getBoardViewModel():BoardViewModel
             {
                 return boardViewModel;

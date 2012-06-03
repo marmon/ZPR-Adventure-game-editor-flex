@@ -175,6 +175,7 @@ package view
 	            var row:int = selectedY;
 	            var col:int = selectedX;
                 cmd.oldColor = bigBlockViews[row][col].getCurrentColor();
+				cmd.oldRoomId =  bigBlockViews[row][col].roomId;
                 cmd.newColor = currentRoomColor;
                 cmd.bigBlockView = bigBlockViews[row][col];
                 cmd.roomId = roomId;
@@ -218,7 +219,10 @@ package view
                 */
             }
 		}
-		
+		public function colorRoomPoints(roomId:int, color:uint, col:int, row:int)
+		{
+			(bigBlockViews[row][col] as BigBlockView).drawRoomPoint(color, roomId);
+		}
 		public function setCurrentRoomColor(color:uint):void
         {
             this.currentRoomColor = color;

@@ -62,6 +62,7 @@
 			protected var objects:ArrayCollection = new ArrayCollection();
 			private var remoteObj : RemoteObject = null;
 			public var levelId:int;
+			public var board:Board;
 			public function initApp(levelId:int):void
 			{
 				this.levelId = levelId;
@@ -71,7 +72,35 @@
 				remoteObj.destination = Config.getInstance().getDestination();
 				remoteObj.readRooms.addEventListener("result", onReadRooms);
 				remoteObj.addRooms.addEventListener("result", onAddRoom);
+				remoteObj.readPoints.addEventListener("result", onReadPoints);
 				refreshRoomList();
+			}
+			private function onReadPoints(re:ResultEvent) : void
+			{
+				var pointsArray:Array = re.result as Array;
+				for(var i:int = 0 ; i < pointsArray.length ; ++i)
+				{
+					var x:int = ((pointsArray[i].x) as int);
+					var y:int = ((pointsArray[i].y) as int);
+					var tmpRoomId:int = ((pointsArray[i].room) as int);
+					if(x % 3 == 0 && y % 3 == 0)
+						{
+						//	board.colorRoomPoints(((pointsArray[i].room) as int),((pointsArray[i].x) as int),((pointsArray[i].x) as int),((pointsArray[i].x) as int));
+							board.colorRoomPoints(tmpRoomId, getRoomColor(tmpRoomId), x / 3, y / 3);
+						}
+				}
+			}
+			private function getRoomColor(roomId:int):uint
+			{
+				for each(var room:Room in rooms)
+				{
+					if((room as Room).id == roomId)
+					{
+
+						return (room as Room).color;
+					}
+				}
+				return 0;
 			}
 			private function onReadRooms(re:ResultEvent) : void {
 //				dispatchEvent(new Event(Event.CHANGE));
@@ -95,6 +124,7 @@
 					newRoom.color = (roomsArray[i].color) as uint;
 					newRoom.id = (roomsArray[i].id) as int;
 					rooms.addItem(newRoom);
+					refreshRoomPoints(newRoom.id);
 				}
 				/*
 				var answer : Object = re.result;
@@ -141,6 +171,10 @@
 			{
 				remoteObj.readRooms(levelId);
 				
+			}
+			public function refreshRoomPoints(roomId:int):void
+			{
+				remoteObj.readPoints(roomId);
 			}
 			protected function submitButton_clickHandler(event:MouseEvent):void
 			{
@@ -241,7 +275,7 @@
         <s:Button id="deleteRoom" label="Delete" color="#FB0808" fontWeight="bold" enabled="{list.selectedItem}" click="deleteRoom_clickHandler(event)"/>
 	</s:Group>
 	<s:Label text="Objects"/>
-	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name">
+	<s:List id="objectsList" width="100%" change="objectList_changeHandles(event)" dataProvider="{objects}" labelField="name" enabled="false">
 		
 	</s:List>
 	<s:Form width="100%" height="65">

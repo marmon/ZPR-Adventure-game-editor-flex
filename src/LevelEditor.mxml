@@ -50,7 +50,7 @@
 				//roomCreator.initApp();
                 board.initBoard();
 				roomCreator.initApp(this.selectedLevel);
-				
+				roomCreator.board = board;
                // stage.addChild(board.boardView);
                 board.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
 				

@@ -24,6 +24,7 @@ package logic.commands
         public var bigBlockView:BigBlockView;
         public var oldColor:uint;
         public var newColor:uint;
+		public var oldRoomId:int;
         public var roomId:int;
         public var isAddition:Boolean = true;
         
@@ -52,11 +53,18 @@ package logic.commands
         public function execute():void
         {
             // change visual appeal
-            bigBlockView.changeColor(newColor);
+            bigBlockView.changeColor(newColor, roomId);
             bigBlockView.draw();
             // add points to db
             if(isAddition)
             {
+				if(oldRoomId != -1)
+				{
+					for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+					{
+						remoteObj.delRoomPoint(block.col, block.row );
+					}
+				}
                 for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
                 {
                     remoteObj.addRoomPoint(roomId, block.col, block.row );
@@ -73,7 +81,7 @@ package logic.commands
         
         public function rollback():void
         {
-            bigBlockView.changeColor(oldColor);
+            bigBlockView.changeColor(oldColor, oldRoomId);
             bigBlockView.draw();
             if(isAddition)
             {
@@ -81,6 +89,13 @@ package logic.commands
                 {
                     remoteObj.delRoomPoint(block.col, block.row );
                 }
+				if(oldRoomId != -1)
+				{
+					for each (var block:BlockViewModel in bigBlockView.blocksViewModel) 
+					{
+						remoteObj.addRoomPoint(oldRoomId, block.col, block.row );
+					}
+				}
             }
             else
             {

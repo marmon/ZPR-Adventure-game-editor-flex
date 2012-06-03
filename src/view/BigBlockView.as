@@ -13,12 +13,14 @@ package view
                 6 7 9
         */
         public var blockLenght:uint;
+		public var roomId:int;
         public function BigBlockView(blockLength:uint)
         {
             super();
             this.blockLenght = blockLength;
             buttonMode = true;
             doubleClickEnabled = true;
+			this.roomId = -1;
         }
         
         public function addBlockViewModel(blockViewModel:BlockViewModel):void
@@ -31,15 +33,24 @@ package view
             return blocksViewModel[0].roomColor;
         }
         
-        public function changeColor(color:uint):void
+        public function changeColor(color:uint, roomId:int):void
         {
+			this.roomId = roomId;
             for each (var blockViewModel:BlockViewModel in blocksViewModel) 
             {
                 blockViewModel.roomColor = color;   
             }
             draw();
         }
-        
+        public function drawRoomPoint(color:uint, roomId:int)
+		{
+			this.roomId = roomId;
+			for each (var blockViewModel:BlockViewModel in blocksViewModel) 
+			{
+				blockViewModel.roomColor = color;   
+			}
+			draw();
+		}
         public function draw():void
         {
             graphics.lineStyle(1, 0xB3B3B3);
