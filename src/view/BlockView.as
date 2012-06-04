@@ -30,18 +30,12 @@ package view
 			loadImg();
             buttonMode = true;
             doubleClickEnabled = true;
-//			icon
-		//	txt = new TextField();
-		//	addChild(txt);
-//			icon="@Embed(source='images/entry.jpg')";
 			
         }
         private function loadImg():void
 		{
 			
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loadFailure);
-//			var request:URLRequest = new URLRequest(url);
-//			loader.load(request);
 			loader.alpha = 0;
 			this.addChild(loader);
 		}
@@ -91,20 +85,5 @@ package view
 		{
 			loader.unload();
 		}
-		/*public function BlockView(x:uint, y:uint)
-		{
-			super();
-			this.x = x;
-			this.y = y;
-            buttonMode = true;
-		}
-		
-		public function drawBlock(length:uint, color:uint):void
-		{
-			graphics.lineStyle(1, 0xB3B3B3);
-			graphics.beginFill(color); 
-			graphics.drawRect(0,0,length, length);
-			graphics.endFill();
-		}*/
 	}
 }

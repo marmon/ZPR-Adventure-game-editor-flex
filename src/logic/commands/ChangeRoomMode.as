@@ -16,13 +16,10 @@ package logic.commands
 		}
 		public function execute():void
 		{
-			//boardView.isRoomModeOn = this.isRoomModeOn;
 			removeOldView(isRoomModeOn);
 		}
 		public function rollback():void
 		{
-			//boardView.isRoomModeOn = !(this.isRoomModeOn)
-			//execute();
 			removeOldView(!isRoomModeOn);
 		}
 		private function removeOldView(value:Boolean)

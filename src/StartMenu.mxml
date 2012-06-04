@@ -32,15 +32,6 @@
 			{
 				levels = event.result as Array;
 				setSelectedLevel(-1);
-				/*
-				var array:ArrayCollection = (event.result as ArrayCollection);
-				
-				for each (var i:String in array) 
-				{
-				var levelName:LevelName = new LevelName();
-				levelName.name = i;
-				levels.addItem(levelName);
-				}*/
 			}
 			protected function onAddLevel(event:ResultEvent):void
 			{
@@ -73,7 +64,6 @@
 				remoteObj.readLevels.addEventListener("result", onReadLevels);
 				remoteObj.addLevel.addEventListener("result", onAddLevel);
 				remoteObj.addEventListener("fault", onFault);
-				//remoteObj.echo.addEventListener("result",onResultEcho);
 				remoteObj.readLevels(); // this requires running server obviously, still it might not work.
 			}
 			private function setSelectedLevel( id : int ) : void
@@ -90,9 +80,6 @@
 			}
 			protected function editBtn_clickHandler(event:MouseEvent):void
 			{
-				//getLevelService.getLevel((levelsList.selectedItem as LevelName).name);
-				// var levelEditor:LevelEditor = new LevelEditor();
-				//levelEditor.init(selectedLevelId);
                 currentState = 'levelEditor';
  				levelEditor.init(selectedLevelId); 
 				
@@ -100,7 +87,6 @@
 			
 			protected function addLevel(event:MouseEvent):void
 			{
-				//@TODO Auto-generated method stub
 				remoteObj.addLevel(levelName.text);
 			}
 			private function levelsListChange() : void

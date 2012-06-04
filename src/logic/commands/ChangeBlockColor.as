@@ -12,15 +12,6 @@ package logic.commands
     import view.BigBlockView;
     import view.BlockView;
 
-    /*
-    Example: var cmd:ChangeBlockColor = new ChangeBlockColor();
-    cmd.bigBlockView = bigBlockView
-    cmd.oldColor = oldColor
-    cmd.newColor = newColor
-    
-    // then use RedoUndo object to execute cmd
-    redoUndo.execute(cmd);
-    */
     public class ChangeBlockColor implements Command
     {
         public var bigBlockView:BigBlockView;
@@ -43,16 +34,12 @@ package logic.commands
         
         private function onAddRoomPoint(resEvent:ResultEvent):void
         {
-            //id = (resEvent.result as int);
-           // roomCreator.refreshRoomList();
 			
         }
         private function onDelRoomPoint(resEvent:ResultEvent)
         {
-            //roomCreator.refreshRoomList();
         }
-     // addRoomPoint( roomId, roomX, roomY ):   
-     // delRoomPoint( roomX, roomY ):
+
         public function execute():void
         {
             // change visual appeal

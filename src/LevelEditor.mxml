@@ -43,24 +43,15 @@
 			public function init(selectedLevel:int):void
 			{
 				this.selectedLevel = selectedLevel;
-			//	boardView = new BoardView(0,0,new BoardViewModel()); // BoardViewModel constructor has reasonable default
-			//	stage.addChild(boardView);
-            //    boardView.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
-			//	boardView.setOperationType(0);
-				//roomCreator.initApp();
                 board.initBoard();
 				roomCreator.initApp(this.selectedLevel);
 				roomCreator.board = board;
-               // stage.addChild(board.boardView);
                 board.addEventListener(MouseEvent.DOUBLE_CLICK,boardDoubleClicked);
 				
 			}
 			
             protected function boardDoubleClicked(event:MouseEvent):void
             {
-//                textArea.text += "\n board double clicked\n";
-                // TODO: we could initilize change to room view here if it is gonna be done in other compontent
-                // if not, then this handler is rather useless.
             }
 
 			protected function roomCreator_roomColorChangedHandler(event:RoomColorChanged):void
@@ -68,15 +59,6 @@
 				board.setCurrentColor(event.color);
                 board.setCurrentRoomId(event.roomId);
 			}
-	//		protected function roomCreator_roomUrlChangedHandler(event:ObjectUrlChanged):void
-	//		{
-	//			boardView.setUrl(event.url);
-	//		}
-			
-	//		protected function mapToJSON_handler(event:MouseEvent):void
-	//		{
-    //            textArea.text = com.adobe.serialization.json.JSON.encode(boardView.boardViewModel);
-	//		}
             
             protected function undo(event:MouseEvent):void
             {

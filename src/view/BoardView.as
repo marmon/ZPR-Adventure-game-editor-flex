@@ -110,55 +110,8 @@ package view
         
         public function setIsRoomModeOn(value:Boolean):void
         {
-  //          isRoomModeOn = value;
 			var cmd:ChangeRoomMode = new ChangeRoomMode(value, this);
 			UndoRedo.getInstance().execute(cmd);
-           /* if (isRoomModeOn) // go to room mode
-            {
-                // remove BigBlocks 
-                for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
-                {
-                    for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
-                    {
-                        this.removeChild(bigBlockViews[row][col]); 
-                    }
-                }
-                // create Block view
-                blockViews = new Array(boardViewModel.board.length);
-                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
-                    blockViews[row] = new Array(boardViewModel.board[row].length);
-                
-                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
-                {
-                    for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
-                    {
-                        var  blockView:BlockView = new BlockView(boardViewModel.board[row][col], blockLength);
-                        this.addChild(blockView);
-                        blockView.addEventListener(MouseEvent.CLICK, blockClicked);
-                        blockView.addEventListener(MouseEvent.DOUBLE_CLICK, blockDoubleClicked); 
-                        blockViews[row][col] = blockView;
-                    }
-                }
-            }
-            else // go back to big block mode
-            {
-                // remove blocks
-                for(var row:int = 0 ; row < boardViewModel.board.length ; ++row)
-                {
-                    for(var col:int = 0 ; col < boardViewModel.board[row].length ; ++col)
-                    {
-                        this.removeChild(blockViews[row][col]);
-                    }
-                }
-                // add bigblocks
-                for(var row:int = 0 ; row < bigBlockViews.length ; ++row)
-                {
-                    for(var col:int = 0 ; col < bigBlockViews[row].length ; ++col)
-                    {
-                        this.addChild(bigBlockViews[row][col]); 
-                    }
-                }
-            }*/
         }
         
         public function blockDoubleClicked(event:MouseEvent):void
@@ -241,23 +194,10 @@ package view
 					return;
 				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2, bigBlockViews[row][col], bigBlockViews[row][col + 1]);
 				UndoRedo.getInstance().execute(cmdAddDoor);
-               // if(col == bigBlockViews[0].length)
-                //    return;
-                //dispatchEvent(new AddDoorEvent("addDoorEvent", true, row, col));
-               
-				/*
-                    //for small block
-                //door1
-                bigBlockViews[row][col].blocksViewModel[5] as BlockViewModel
-                //door2
-                bigBlockViews[row][col+1].blocksViewModel[3] as BlockViewModel
-                */
             }
             else if(tool == Tools.DOOR_V)
             {
-//                if(row == 0)
-//                    return;
- //               dispatchEvent(new AddDoorEvent("addDoorEvent", false, row, col));
+
 				var row:int = selectedY;
 				var col:int = selectedX;
 				if(((bigBlockViews[row][col].roomId) == (bigBlockViews[row+1][col].roomId)) ||
@@ -266,7 +206,7 @@ package view
 					return;
 					
 				}
-				//bigBlockViews[row][col].roomId
+
 				var x1:uint = 3*col + 1;
 				var y1:uint = 3*row + 2;
 				var x2:uint = 3*col + 1;
@@ -275,14 +215,6 @@ package view
 					return;
 				var cmdAddDoor:AddDoorCmd = new AddDoorCmd(x1, y1, x2, y2, bigBlockViews[row][col], bigBlockViews[row + 1][col]);
 				UndoRedo.getInstance().execute(cmdAddDoor);
-				
-                /*
-                    for small block
-                //door1
-                bigBlockViews[row][col].blocksViewModel[1] as BlockViewModel
-                //door2
-                bigBlockViews[row - 1][col].blocksViewModel[7] as BlockViewModel
-                */
             }
 		}
 		public function colorRoomPoints(roomId:int, color:uint, col:int, row:int):void
@@ -323,7 +255,6 @@ package view
         {
             if ( isRoomModeOn )
             {
-                //return bigBlockViews.length * blockLength;
                 return blockViews.length * blockLength;
             }
             else

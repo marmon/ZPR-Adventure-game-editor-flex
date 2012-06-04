@@ -120,7 +120,6 @@
 					var tmpRoomId:int = ((pointsArray[i].room) as int);
 					if(x % 3 == 0 && y % 3 == 0)
 						{
-						//	board.colorRoomPoints(((pointsArray[i].room) as int),((pointsArray[i].x) as int),((pointsArray[i].x) as int),((pointsArray[i].x) as int));
 							board.colorRoomPoints(tmpRoomId, getRoomColor(tmpRoomId), x / 3, y / 3);
 						}
 				}
@@ -138,17 +137,6 @@
 				return 0;
 			}
 			private function onReadRooms(re:ResultEvent) : void {
-//				dispatchEvent(new Event(Event.CHANGE));
-//				PopUpManager.removePopUp(this);
-				/* status_txt.text = "fault: ";
-				status_txt.text += fault.message;
-				
-				for( var d : String in fault.fault )
-				{
-				status_txt.text += fault.fault[d] + "\n";
-				}
-				(answer.capacity as Number)
-				*/
 				var roomsArray:Array = re.result as Array;
 				rooms = new ArrayCollection();
 				//for(var  room:String in roomsArray)
@@ -161,19 +149,6 @@
 					rooms.addItem(newRoom);
 					refreshRoomPoints(newRoom.id);
 				}
-				/*
-				var answer : Object = re.result;
-				
-				selectedBackpackName.text = answer.name as String;
-				selectedBackpackSize.text = (answer.capacity as Number).toString();
-				
-				var itemsArray : Array = answer.items as Array;
-				
-				itemsCollection_.source = itemsArray;
-				*/
-				//var answer : Object = re.result;
-				//var itemsArray : Array = answer.items as Array;
-				//rooms.source = re.result as Array;;
 				
 			}
 			private function onAddRoom(re:ResultEvent)
@@ -209,9 +184,6 @@
 			}
 			protected function submitButton_clickHandler(event:MouseEvent):void
 			{
-				/*
-				
-				*/
 				var r:Room = new Room();
 				r.name = roomName.text;
 				r.color = roomColor.selectedColor;
@@ -234,23 +206,12 @@
 				cmd.levelId = levelId;
 				cmd.roomCreator = this;
 				UndoRedo.getInstance().execute(cmd);
-				//rooms.addItem(r);
 				
 			}
 			protected function checkValidClickHandler(event:MouseEvent):void
 			{
 				remoteObj.isValid(levelId);
 			}
-//			protected function objectList_changeHandles(event:IndexChangeEvent): void
-//			{
-//
-//				list.selectedIndex = -1;
-////				var eventObject:ObjectUrlChanged = new ObjectUrlChanged("objectUrlChanged", (objectsList.selectedItem as GameObject).url);
-////				dispatchEvent(eventObject);
-//				var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 1);
-//				dispatchEvent(operationEvent);
-//				
-//			}
 			protected function list_changeHandler(event:IndexChangeEvent):void
 			{
 //				objectsList.selectedIndex = -1;
@@ -259,8 +220,6 @@
 				
 				var eventObject:RoomColorChanged = new RoomColorChanged("roomColorChanged", room.color, room.id); 
 				dispatchEvent(eventObject);
-				//var operationEvent:OperationTypeChanged = new OperationTypeChanged("operationTypeChanged", 0);
-				//dispatchEvent(operationEvent); change="list_changeHandler(event)"
 			}
 			
             protected function deleteRoom_clickHandler(event:MouseEvent):void
